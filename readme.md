@@ -1,21 +1,17 @@
-# Laravel PHP Framework
+# Aplikasi Sistem Informasi Keuangan Khusus Petani Hidroponik
+[![Build Status]masih pengembangan](https://travis-ci.org/laravel/framework)
 
+[![Total Downloads]](https:)
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
+[![Latest Stable Version]V.2.0.0]
+[![Latest Unstable Version]3.0.0.dev]
+[![License]a cup of cafe latte]
 
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
-
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
-
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
+1.	Dapat mendokumentasikan pengeluaran dan pemasukan dana dengan sistem yang telah terkomputerisasi. Sehingga dapat menentukan harga yang sesuai untuk menjual hasil pertanian 
+2.	Memperkecil kesalahan yang terjadi saat perhitungan keuangan.
+3.	Dapat menginput pengeluaran maupun pemasukan dana setiap saat karena sistem yang dibuat berbasis website dan dapat diakses secara online
+4.	Mempercepat perhitungan keuangan mulai dari modal hingga hasil penjualan.
+5.	Dapat dijadikan sebagai bahan evaluasi serta memeriksa history dari perolehan keuntungan dari waktu ke waktu.
 
 ## Official Documentation
 
