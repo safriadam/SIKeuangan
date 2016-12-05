@@ -14,11 +14,13 @@
 <table class="table table-bordered">
 
 	<tr><td>Realiasasi Masa Tanam: </td>
-		<td>
+		<td>{{ Form::hidden('masa_tanam', $pengeluaran->masa_tanam) }}
 			{{ $pengeluaran->masa_tanam->format('F') }} - {{ $pengeluaran->masa_tanam->modify('+2 month')->format('F') }}
+		
 		</td>
 	</tr>
 	<tr><td>Nama Sayur </td>
+		{{ Form::hidden('sayur_id', $pengeluaran->id_sayur) }}
 		<td>{{ Form::text('nama_sayur',null, ['class' => 'form-control','readonly']) }}</td>
 	</tr>
 

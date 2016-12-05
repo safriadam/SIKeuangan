@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\pengeluaran;
 use App\transaksi;
 use App\labarugi;
+use App\harga_pokok;
 use App\Http\Requests\createPengeluaran;
 
 class PengeluaranController extends Controller
@@ -52,8 +53,18 @@ class PengeluaranController extends Controller
     public function update($id, createPengeluaran $request)
     {
         $data = $request->all();
+
         $pengeluaran = pengeluaran::find($id);
+        
         $pengeluaran->update($data);
+
+        harga_pokok::create(array(  'masa_tanam'    =>$data['masa_tanam'],
+                                    'id_sayur'      =>$data['sayur_id'],
+                                    'nama_sayur'    =>$data['nama_sayur'],
+                                    'pengeluaran_id'=>$pengeluaran->id,
+                                    'pengeluaran'   =>$data['total_realisasi'],
+                                    ));
+
         return redirect('pengeluaran');
     }
 
@@ -78,6 +89,8 @@ class PengeluaranController extends Controller
                                                  'qty_peng'=>$qty,
                                                  'pengeluaran'=>$peng,
                                                  'jenis_peng'=>$jen));
+
+        
 
         if($jen == 'produksi') // jika pengeluaran berjenis produksi maka di masukan ke tabel labarugi
             {

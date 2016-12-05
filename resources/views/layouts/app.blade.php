@@ -89,7 +89,7 @@
                         <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa fa-usd"></i> Keuangan Bulanan</a></li>
                                 <li><a href="{{ url('/profil') }}"><i class="fa fa-btn fa-bar-chart"></i></i>Laba-Rugi</a></li>
-                                <li><a href="{{ url('/profil') }}"><i class="fa fa-btn fa fa-money"></i></i>Harga Jual Produk</a></li>
+                                <li><a href="{{ url('/harga') }}"><i class="fa fa-btn fa fa-money"></i></i>Harga Jual Produk</a></li>
                         </ul>
                     </li>
                         

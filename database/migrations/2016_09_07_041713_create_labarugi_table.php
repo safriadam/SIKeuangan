@@ -14,18 +14,18 @@ class CreateLabarugiTable extends Migration
      */
     public function up()
     {
-        Schema::create('labarugis', function (Blueprint $table) {
-            $table->increments('id');
-            $table->date('tanggal_transaksi');
-            $table->integer('pengeluaran_id')->unsigned();
-            $table->foreign('pengeluaran_id')->references('id')->on('pengeluaran');
-            $table->integer('pemasukan_id')->unsigned();
-            $table->foreign('pemasukan_id')->references('id')->on('pemasukan');
-            $table->integer('pemasukan');
-            $table->integer('pengeluaran');
-            $table->integer('labarugi');
-            $table->timestamps();
-        });
+        // Schema::create('labarugis', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->date('tanggal_transaksi');
+        //     $table->integer('pengeluaran_id')->unsigned();
+        //     $table->foreign('pengeluaran_id')->references('id')->on('pengeluaran');
+        //     $table->integer('pemasukan_id')->unsigned();
+        //     $table->foreign('pemasukan_id')->references('id')->on('pemasukan');
+        //     $table->integer('pemasukan');
+        //     $table->integer('pengeluaran');
+        //     $table->integer('labarugi');
+        //     $table->timestamps();
+        // });
     }
 
     /**

@@ -99,6 +99,7 @@ Route::group(['middleware' => 'auth'], function ()
 	Route::resource('pemasukan','PemasukanController');
 	Route::resource('laporan','LaporanController');
 	Route::resource('sayuran','sayurController');
+	Route::resource('harga', 'hargaController');
 	
 	
 	// 

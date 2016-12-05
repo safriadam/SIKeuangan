@@ -13,18 +13,18 @@ class CreateTableTransaksi extends Migration
      */
     public function up()
     {
-        Schema::create('Transaksis', function (Blueprint $table) {
-            $table->increments('id');
-            $table->date('tgl_transaksi');
-            $table->integer('pengeluaran_id')->unsigned();
-            $table->foreign('pengeluaran_id')->references('id')->on('pengeluaran');
-            $table->integer('pemasukan_id')->unsigned();
-            $table->foreign('pemasukan_id')->references('id')->on('pemasukan');
-            $table->integer('pengeluaran');
-            $table->integer('pemasukan');
-            $table->integer('saldo');
-            $table->timestamps();
-        });
+        // Schema::create('Transaksis', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->date('tgl_transaksi');
+        //     $table->integer('pengeluaran_id')->unsigned();
+        //     $table->foreign('pengeluaran_id')->references('id')->on('pengeluaran');
+        //     $table->integer('pemasukan_id')->unsigned();
+        //     $table->foreign('pemasukan_id')->references('id')->on('pemasukan');
+        //     $table->integer('pengeluaran');
+        //     $table->integer('pemasukan');
+        //     $table->integer('saldo');
+        //     $table->timestamps();
+        // });
     }
 
     /**

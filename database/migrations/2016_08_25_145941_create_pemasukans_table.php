@@ -12,15 +12,15 @@ class CreatePemasukansTable extends Migration
      */
     public function up()
     {
-        Schema::create('pemasukans', function (Blueprint $table) {
-            $table->increments('id');
-            $table->date('tanggal_transaksi');
-            $table->string('deskripsi');
-            $table->integer('pemasukan');
-            $table->enum('jenis_pema',['aset','produksi']);
-            $table->integer('saldo_terakhir');
-            $table->timestamps();
-        });
+        // Schema::create('pemasukans', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->date('tanggal_transaksi');
+        //     $table->string('deskripsi');
+        //     $table->integer('pemasukan');
+        //     $table->enum('jenis_pema',['aset','produksi']);
+        //     $table->integer('saldo_terakhir');
+        //     $table->timestamps();
+        // });
     }
 
     /**

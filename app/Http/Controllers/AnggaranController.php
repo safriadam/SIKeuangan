@@ -58,7 +58,7 @@ class AnggaranController extends Controller
 
     public function store(createAnggaran $request)
     {
-       
+        
         $year           = $request['year'];
         $mastam         = $request['masaTanam'];
         $masa_tanam     = $year.'-'.$mastam.'-'.date('d'); 
