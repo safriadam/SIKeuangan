@@ -27,7 +27,7 @@ class AnggaranController extends Controller
             // die;
            $data['anggaran']   = $anggaran;
            
-           $data['total_ang']   = anggaran::whereYear('masa_tanam','=', date('Y'))
+           $data['total_ang']  = anggaran::whereYear('masa_tanam','=', date('Y'))
                                             ->whereMonth('masa_tanam', '=', date('m'))
                                             ->sum('tot_anggaran');
            $data['saldo']      = 40000;

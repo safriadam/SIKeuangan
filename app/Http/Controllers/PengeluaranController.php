@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use fpdf;
 use App\Http\Requests;
+use App\sayuran;
 use App\pengeluaran;
 use App\transaksi;
 use App\labarugi;
@@ -17,8 +18,8 @@ class PengeluaranController extends Controller
     {
        
         $pengeluaran         = pengeluaran::whereYear('masa_tanam','=', date('Y'))
-                                               ->whereMonth('masa_tanam', '=', date('m'))
-                                               ->paginate(20);
+                                            ->whereMonth('masa_tanam', '=', date('m'))
+                                            ->paginate(20);
            
         $data['pengeluaran'] = $pengeluaran;
            
@@ -54,12 +55,12 @@ class PengeluaranController extends Controller
     {
         $data = $request->all();
 
-        $pengeluaran = pengeluaran::find($id);
-        
+        $pengeluaran = pengeluaran::find($id);      
+    
         $pengeluaran->update($data);
-
+        
         harga_pokok::create(array(  'masa_tanam'    =>$data['masa_tanam'],
-                                    'id_sayur'      =>$data['sayur_id'],
+                                    'sayur_id'      =>$data['sayur_id'],
                                     'nama_sayur'    =>$data['nama_sayur'],
                                     'pengeluaran_id'=>$pengeluaran->id,
                                     'pengeluaran'   =>$data['total_realisasi'],

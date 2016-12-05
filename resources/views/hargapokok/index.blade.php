@@ -44,8 +44,8 @@
 			<th>Nama Sayur</th>
 			<th>Total Modal</th>
 			<th>Total Panen</th>
-			<th>Rekomendasi Harga</th>
 			<th>Profit</th>
+			<th>Rekomendasi Harga</th>
 			<th>Harga Pasar</th>
 			<th>Harga Jual</th>
 			<th colspan="2">Aksi</th></tr>
@@ -57,15 +57,15 @@
 		<td width="200px">{{ $n->nama_sayur }}</td>
 		<td width="140px">{{ number_format($n->pengeluaran) }}</td>
 		<td width="140px">{{ number_format($n->total_panen) }}</td>
-		<td width="140px">{{ number_format($n->harga_rekomen) }}</td>
 		<td width="140px">{{ number_format($n->profit) }}</td>
+		<td width="140px">{{ number_format($n->harga_rekomen) }}</td>
 		<td width="140px">{{ number_format($n->harga_pasar) }}</td>
 		<td width="140px">{{ number_format($n->harga_jual) }}</td>
 
 		@if ($n->total_realisasi) 
 				<td width="50px"><button type="button" class="btn btn-success btn-sm disabled">Realiasikan</button></td>	
 		@else
-				<td width="50px">{!! link_to('pengeluaran/'.$n->id.'/edit','Realisasikan',['class'=>'btn btn-success btn-sm']) !!}</td>
+				<td width="50px">{!! link_to('harga/'.$n->id.'/edit','Edit',['class'=>'btn btn-success btn-sm']) !!}</td>
 		@endif
 		 </tr>
 

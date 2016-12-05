@@ -5,7 +5,7 @@
 <div class="container">
 	{!! Html::ul($errors->all()) !!}
 
-	{!! Form::open(array('url'=>'laporan/harga/hasilHarga')) !!}
+	{!! Form::model($pengeluaran,array('url'=>'pengeluaran/'.$pengeluaran->id,'method'=>'patch')) !!}
 	<table class="table table-bordered">
 		<tr>
 			<td>pengeluaran produksi

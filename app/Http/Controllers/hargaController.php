@@ -42,7 +42,7 @@ class hargaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //
     }
 
     /**
@@ -64,7 +64,8 @@ class hargaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['harga']   = harga_pokok::find($id);
+        return view('hargapokok.edit',$data);
     }
 
     /**
