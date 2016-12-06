@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function ()
 	Route::get('laporan/labarugi/labarugipdf','LaporanController@labarugipdf');
 	Route::post('laporan/bulanan/bulananpdf','LaporanController@bulananpdf');
 	Route::get('laporan/bulanan/bulananpdf','LaporanController@bulananpdf');
+	Route::post('harga/tahunBulan','hargaController@tahunBulan');
 
 	// sayuran----------------------------------------------------------------------------------->>>
 

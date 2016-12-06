@@ -18,9 +18,9 @@ class hargaController extends Controller
     public function index()
     {
         $harga = harga_pokok::all();
-        $data['harga']   = $harga;
-        $data['y']           = date('Y');
-        $data['m']           = date('m');
+        $data['harga']      = $harga;
+        $data['y']          = date('Y');
+        $data['m']  = date('m');
         return view('hargapokok.index',$data);
     }
 
@@ -93,5 +93,19 @@ class hargaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function tahunBulan(request $request)
+    {
+        $month                  = $request['masaTanam'];
+        $year                   = $request['year'];
+        $harga                  = harga_pokok::whereYear('masa_tanam', '=', $year)
+                                             ->whereMonth('masa_tanam', '=', $month)
+                                             ->paginate(40);
+        $data['harga']          = $harga;
+        $data['y']              = $year;
+        $data['m']              = $month;
+        $data['saldo']          = 40000; //transaksi::latest()->first();
+        return view('hargapokok.index',$data);
     }
 }
