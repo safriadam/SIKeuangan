@@ -24,15 +24,15 @@ class LaporanController extends Controller
     {
         $data['y']              = date('Y');
         $data['m']              = date('m');
-        $labarugi               = labarugi::whereYear('created_at', '=', date('Y'))
-                                            ->whereMonth('created_at', '=', date('m'))
+        $labarugi               = labarugi::whereYear('masa_tanam', '=', date('Y'))
+                                            ->whereMonth('masa_tanam', '=', date('m'))
                                             ->paginate(40);
-        $pema                   = labarugi::whereYear('created_at', '=', date('Y'))
-                                            ->whereMonth('created_at', '=', date('m'))
-                                            ->sum('pemasukan');
-        $penge                  = labarugi::whereYear('created_at', '=', date('Y'))
-                                            ->whereMonth('created_at', '=', date('m'))
-                                            ->sum('pengeluaran');                                   
+        // $pema                   = labarugi::whereYear('masa_tanam', '=', date('Y'))
+        //                                     ->whereMonth('masa_tanam', '=', date('m'))
+        //                                     ->sum('pemasukan');
+        // $penge                  = labarugi::whereYear('created_at', '=', date('Y'))
+        //                                     ->whereMonth('created_at', '=', date('m'))
+        //                                     ->sum('pengeluaran');                                   
         $data['labarugi']       = $pema - $penge;
         $data['laba_rugi']      = $labarugi;
     
@@ -43,8 +43,8 @@ class LaporanController extends Controller
     {
         $data['y']              = date('Y');
         $data['m']              = date('m');
-        $bulanan                = transaksi::whereYear('created_at', '=', date('Y'))
-                                            ->whereMonth('created_at', '=', date('m'))
+        $bulanan                = transaksi::whereYear('masa_tanam', '=', date('Y'))
+                                            ->whereMonth('masa_tanam', '=', date('m'))
                                             ->paginate(40);
         $data['saldo']          = transaksi::latest()->first();
         $data['transaksi']      = $bulanan;

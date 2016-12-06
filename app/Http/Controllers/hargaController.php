@@ -77,7 +77,11 @@ class hargaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $harga = harga_pokok::find($id);      
+        $harga->update($data);
+        
+        return redirect('harga');
     }
 
     /**

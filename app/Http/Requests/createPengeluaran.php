@@ -31,4 +31,13 @@ class createPengeluaran extends Request
             
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'real_bibit.required'        => 'Realisasi bibit harus di isi',
+            'real_nutrisi.required'      => 'Realisasi nutrisi harus di isi',
+            'real_bahan_lain.required'   => 'Realisasi bahan lain harus di isi',
+        ];
+    }
 }

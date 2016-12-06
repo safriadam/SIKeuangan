@@ -43,7 +43,7 @@
 
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="info-box green-bg" align="center">
-                    <a href="{{ url('laporan')}}"><img src="img/sayuran.png"  width="120" height="120" class="img-responsive"></a>
+                    <a href="{{ url('sayuran')}}"><img src="img/sayuran.png"  width="120" height="120" class="img-responsive"></a>
                     <h3>SAYURAN</h3>           
                   </div><!--/.info-box-->     
                 </div><!--/.col-->

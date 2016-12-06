@@ -1,64 +1,88 @@
 @extends('layouts.app')
 @section('content')
 
-<head><link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"></head>
+ 
+
 <div class="container">
-	<div class="container">
+		<div class="row">
+              <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-money" aria-hidden="true"></i>Laporan Keuangan Bulanan</h3>
+              </div>
+        </div>
 		<div class="col-sm-4">
-			<h4>Saldo saat ini:</h4> <!-- untuk pilih periode  -->
-			<tr><td>{!! Form::text('saldo', number_format($saldo->saldo) ,['class'=>'form-control','readonly']) !!}</td></tr>
+			<h4>Saldo saat ini:</h4> 
+			<tr><td>{!! Form::text('saldo', $saldo ,['class'=>'form-control']) !!}</td></tr>
 		</div>
-	</div>
-	<div>
-		<div class="container">
-			<div class= "col-sm-3" >
-				<h4>Laporan Bulanan Periode : </h4> <!-- untuk pilih periode  -->
-				{!! Form::open(array('url'=>'laporan/bulanan/tahunBulan')) !!}
+		<div class="col-sm-4">
+			<h4>Realisasi Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->
+				{!! Form::open(array('url'=>'bulanan/tahunBulan')) !!}
 				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field']) !!}
-				{!! Form::selectMonth('month', $m ,['class' => 'field'] ) !!}
+				{{ Form::select('masaTanam', [
+								   '1' => 'Januari - Maret',
+								   '2' => 'Februari - April',
+								   '3' => 'Maret - Mei',
+								   '4' => 'April - Juni',
+								   '5' => 'Mei - Juli',
+								   '6' => 'Juni - Agustus',
+								   '7' => 'Juli - September',
+								   '8' => 'Agustus - Oktober',
+								   '9' => 'September - November',
+								   '10' => 'Oktober - Desember',
+								   '11' => 'November - Januari',
+								   '12' => 'Desember - Februari'], $m, ['class' => 'field']
+									) }}
 				{!! form::submit('Tampilkan',['class'=>'btn btn-info btn-sm']) !!}
 				{!! form::close() !!}
-			</div>
-			<div class= "col-sm-5" >
-			<h4>Cetak laporan Bulanan Periode: </h4> <!-- untuk pilih periode  -->
-					{!! Form::open(array('url'=>'laporan/bulanan/bulananpdf')) !!}
-					{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field']) !!}
-					{!! Form::selectMonth('month', $m ,['class' => 'field'] ) !!}
-					{!! form::submit('Cetak PDF',['class'=>'btn btn-info btn-sm']) !!}
-					{!! form::close() !!}
-			</div>
 		</div>
-	</div>
-<hr>
 	
+</div>
+	
+ 	
+
+<div class="container">
+	<hr>
 	<table class="table table-bordered">
 		<tr>
-			<th>no</th>
+			<th>No</th>
 			<th>Tanggal Transaksi</th>
 			<th>Deskripsi</th>
 			<th>Pemasukan</th>
 			<th>Pengeluaran</th>
-			<th>Saldo</th>
-		</tr>
-			<?php $no = 1; ?>
-			@foreach ( $transaksi as $n)
+			<th colspan="2">Aksi</th></tr>
+		<?php $no = 1; ?>
+		@foreach ( $pengeluaran as $n)
 		<tr>
-			<td width="50px" align="center">{{ $no++ }} </td>
-			<td width="200px">{{ $n->created_at->format('d-m-Y') }}</td>
-			<td>{{ $n->deskripsi }}</td>
-			<td width="150px">{{ number_format($n->pemasukan) }}</td>
-			<td width="100px">{{ number_format($n->pengeluaran) }}</td>
-			<td width="100px">{{ number_format($n->saldo) }}</td>
-		
-	 	</tr>
-		
+		<td width="50px" align="center">{{ $no++ }}</td>
+		<td width="200px">{{ $n->masa_tanam->format('F') }} - {{ $n->masa_tanam->modify('+2 month')->format('F') }}</td> 
+		<td width="200px">{{ $n->nama_sayur }}</td>
+		<td width="140px">{{ number_format($n->real_bibit) }}</td>
+		<td width="140px">{{ number_format($n->real_nutrisi) }}</td>
+		<td width="140px">{{ number_format($n->real_bahan_lain) }}</td>
+		<td width="140px">{{ number_format($n->total_realisasi) }}</td>
 
+		@if ($n->total_realisasi) 
+				<td width="50px"><button type="button" class="btn btn-success btn-sm disabled">Realiasikan</button></td>	
+		@else
+				<td width="50px">{!! link_to('pengeluaran/'.$n->id.'/edit','Realisasikan',['class'=>'btn btn-success btn-sm']) !!}</td>
+		@endif
+		 </tr>
+		 <tr>
+		 	<td></td>
+		 </tr>
+
+		
+		
+		
 		@endforeach
-	
+		
 	</table>
-{!! $transaksi->render() !!}
+	{!! $pengeluaran->render() !!}
+			
+			
 </div>
-
+		
+		
+	
 
 
 @stop

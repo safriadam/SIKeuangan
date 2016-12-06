@@ -9,10 +9,12 @@ use App\labarugi;
 class pemasukan extends Model
 {
     
-    protected $fillable = [ 'tanggal_transaksi',
-				            'deskripsi',
-				            'pemasukan',
+    protected $fillable = [ 'masa_tanam',
+				            'id_sayur',
+				            'nama_sayur',
 				            'jenis_pema',
+                            'keterangan',
+                            'pemasukan',
 				            'id'];
 
 	public function transaksi()
@@ -24,5 +26,11 @@ class pemasukan extends Model
     {
         return $this->hasOne('App\labarugi');
     }
+
+    protected $dates = [
+        'created_at', 
+        'updated_at', 
+        'masa_tanam',
+            ];
 
 }

@@ -25,16 +25,22 @@ class createAnggaran extends Request
     {
         return [
 
-            'nama_sayur'        =>'required',
-            'bibit'              =>'required',
-            'ket_bibit'         =>'required',
+            'bibit'             =>'required',
             'nutrisi'           =>'required',
-            'ket_nutrisi'       =>'required',
             'bahan_lain'        =>'required',
-            'ket_bahan_lain'    =>'required',
-            'tot_anggaran'      =>'required',
+            
             
           
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'bibit.required'        => 'Anggaran bibit harus di isi',
+            'nutrisi.required'      => 'Anggaran nutrisi harus di isi',
+            'bahan_lain.required'   => 'Anggaran bahan lain harus di isi',
+        ];
+    }
+    
 }

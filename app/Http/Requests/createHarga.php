@@ -24,8 +24,16 @@ class createHarga extends Request
     public function rules()
     {
         return [
-            'hasil_panen'     =>'required',
-            'margin'             =>'required',
+            'total_panen'        =>'required',
+            'profit'             =>'required',
                  ];
+    }
+
+    public function messages()
+    {
+        return [
+            'total_panen.required'  => 'Total panen harus di isi',
+            'profit.required'       => 'Profit harus di isi',
+        ];
     }
 }

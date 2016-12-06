@@ -7,6 +7,7 @@ use fpdf;
 use App\Http\Requests;
 use App\sayuran;
 use App\pengeluaran;
+use App\pemasukan;
 use App\transaksi;
 use App\labarugi;
 use App\harga_pokok;
@@ -64,6 +65,11 @@ class PengeluaranController extends Controller
                                     'nama_sayur'    =>$data['nama_sayur'],
                                     'pengeluaran_id'=>$pengeluaran->id,
                                     'pengeluaran'   =>$data['total_realisasi'],
+                                    ));
+
+        pemasukan::create(array(    'masa_tanam'    =>$data['masa_tanam'],
+                                    'id_sayur'      =>$data['sayur_id'],
+                                    'nama_sayur'    =>$data['nama_sayur'],
                                     ));
 
         return redirect('pengeluaran');

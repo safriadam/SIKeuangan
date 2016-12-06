@@ -47,9 +47,11 @@
         .btn-space {
              margin-right: 6px;  /*css untuk nambah spasi button group*/
         }
+
     </style>
     <script type=”text/javascript”>
-    <!–
+   
+}
  
     </script>
 
@@ -87,7 +89,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Laporan<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa fa-usd"></i> Keuangan Bulanan</a></li>
+                                <li><a href="{{ url('laporan/bulanan') }}"><i class="fa fa-btn fa fa-usd"></i> Keuangan Bulanan</a></li>
                                 <li><a href="{{ url('/profil') }}"><i class="fa fa-btn fa-bar-chart"></i></i>Laba-Rugi</a></li>
                                 <li><a href="{{ url('/harga') }}"><i class="fa fa-btn fa fa-money"></i></i>Harga Jual Produk</a></li>
                         </ul>
@@ -189,7 +191,7 @@
 
     <script type="text/javascript" src="{{ asset ('js/jquery.js') }}"></script>
 
-    <script type="text/javascript" >
+<script type="text/javascript" >
 
             $(document).ready(function() {
             //this calculates values automatically 
@@ -210,8 +212,6 @@
                     }
                 }
 </script>
-
-
 
 <script type="text/javascript">
 
@@ -246,7 +246,29 @@
  
      });
  
-  </script>
+</script>
+
+<script type="text/javascript">
+    $("#total_panen, #profit, #harga_rekomen").keyup(function(){
+ 
+        var num1   = $("#total_modal").val();
+        var num2   = $("#total_panen").val();
+        var num3   = $("#profit").val();
+        var sat     = (parseInt(num1) / parseInt(num2));
+        var pro     =  parseInt(sat) * (parseInt(num3)/100);
+        var result  = sat + pro;
+
+        if (!isNaN(parseInt(result))) {
+
+                $("#harga_rekomen").val(result);
+                       
+            }
+         
+ 
+     });
+</script>
+
+
 
 </body>
 </html>

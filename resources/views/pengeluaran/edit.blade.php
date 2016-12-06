@@ -7,7 +7,7 @@
               <div class="col-lg-12">
                 <h3 class="page-header"><i class="fa fa-info-circle" aria-hidden="true"></i>Detail Realisasi</h3>
               </div>
-         </div>
+    </div>
 {!! Html::ul($errors->all()) !!}
 
 {!! Form::model($pengeluaran,array('url'=>'pengeluaran/'.$pengeluaran->id,'method'=>'patch')) !!}

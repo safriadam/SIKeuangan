@@ -26,10 +26,14 @@ class createPemasukan extends Request
     {
         return [
 
-            'tanggal_transaksi'     =>'required',
-            'deskripsi'             =>'required',
             'pemasukan'             =>'required',
-            'jenis_pema'            =>'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'pemasukan.required' => 'jumlah pemasukan harus di isi',
         ];
     }
 }
