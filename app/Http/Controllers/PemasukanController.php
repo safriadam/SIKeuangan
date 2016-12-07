@@ -20,9 +20,9 @@ class PemasukanController extends Controller
                                             ->whereMonth('created_at', '=', date('m'))
                                             ->sum('pemasukan');                                     
         $data['pemasukan']    	= $pemasukan;
+        $data['saldo']       = transaksi::latest()->first();
         $data['y']              = date('Y');
         $data['m']              = date('m');
-        $data['saldo']          = 400000;
      	return view('pemasukan.index',$data);
 
     }
@@ -35,15 +35,22 @@ class PemasukanController extends Controller
     public function store(createPemasukan $request)
     {
        	
-    	$data = $request->all();
-        // $pem  = $request['pemasukan']; 
-        // $des  = $request['deskripsi'];
-        // $tgl  = $request['tanggal_transaksi'];   
-        // $jen  = $request['jenis_pema'];
+    	$data       = $request->all(); 
+        $pemasukan  = pemasukan::create($data);
+        $pemasukan  = pemasukan::latest()->first()->id;
+        $saldo      = transaksi::latest()->first();  
+        $saldo      = $saldo->saldo + $data['pemasukan'];
 
-        $pemasukan = pemasukan::create($data);
+        transaksi::create(array(    'tgl_transaksi' =>$data['masa_tanam'],
+                                    'deskripsi'     =>'['.$data['jenis_pema'].'] '.$data['keterangan'],
+                                    'pemasukan_id'  =>$pemasukan,
+                                    'pemasukan'     =>$data['pemasukan'],
+                                    'saldo'         =>$saldo,
+                                ));
         
-        // if($jen == 'produksi') // jika pemasukan berjenis produksi maka di masukan ke tabel labarugi
+        
+
+        //if($jen == 'produksi') // jika pemasukan berjenis produksi maka di masukan ke tabel labarugi
         //     {
                 
         //         $labarugi = labarugi::latest()->first();
@@ -93,17 +100,26 @@ class PemasukanController extends Controller
     {
         $data = $request->all();
 
-        $pemasukan = pemasukan::find($id);      
-    
+        $pemasukan = pemasukan::find($id);
+
+        $saldo = transaksi::latest()->first();
+
+        $saldo = $saldo->saldo + $data['pemasukan'];
+
+        transaksi::create(array(    'tgl_transaksi' =>$data['masa_tanam'],
+                                    'deskripsi'     =>'Hasil penjualan sayur '.$data['nama_sayur'],
+                                    'pemasukan_id'  =>$pemasukan->id,
+                                    'pemasukan'     =>$data['pemasukan'],
+                                    'saldo'         =>$saldo,                                
+                                ));
+
+        labarugi::create(array(     'periode'       =>$data['masa_tanam'],
+                                    'deskripsi'     =>'Hasil penjualan sayur '.$data['nama_sayur'],
+                                    'pemasukan_id'  =>$pemasukan->id,
+                                    'pemasukan'     =>$data['pemasukan'],
+                                    ));
         $pemasukan->update($data);
         
-        // harga_pokok::create(array(  'masa_tanam'    =>$data['masa_tanam'],
-        //                             'sayur_id'      =>$data['sayur_id'],
-        //                             'nama_sayur'    =>$data['nama_sayur'],
-        //                             'pengeluaran_id'=>$pengeluaran->id,
-        //                             'pengeluaran'   =>$data['total_realisasi'],
-        //                             ));
-
         return redirect('pemasukan');
     }
     // public function edit($id)
@@ -142,7 +158,7 @@ class PemasukanController extends Controller
         $data['pemasukan']      = $pemasukan;
         $data['y']              = $year;
         $data['m']              = $month;
-        $data['saldo']          = 40000; //transaksi::latest()->first();
+        $data['saldo']          = transaksi::latest()->first();
         return view('pemasukan.index',$data);
     }
 

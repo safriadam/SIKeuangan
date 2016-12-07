@@ -8,7 +8,7 @@ use App\pengeluaran;
 
 class labarugi extends Model
 {
-   protected $fillable = ['tanggal_transaksi','deskripsi','pengeluaran_id','pemasukan_id','pemasukan','pengeluaran','labarugi'];
+   protected $fillable = ['periode','deskripsi','realisasi_id','pemasukan_id','pemasukan','pengeluaran','labarugi','created_at'];
 
     public function pemasukan()
     {
@@ -21,4 +21,9 @@ class labarugi extends Model
     	return $this->belongsTo('App\pengeluaran');
 
     }
+
+    protected $dates = [
+        'created_at',  
+        'periode',
+            ];
 }

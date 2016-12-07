@@ -12,26 +12,26 @@ use App\transaksi;
 use App\labarugi;
 use App\harga_pokok;
 use App\Http\Requests\createPengeluaran;
+use Cartalyst\Alerts\Native\Facades\Alert;
+use Validator;
 
 class PengeluaranController extends Controller
 {
     public function index()
     {
        
-        $pengeluaran         = pengeluaran::whereYear('masa_tanam','=', date('Y'))
+        $pengeluaran          = pengeluaran::whereYear('masa_tanam','=', date('Y'))
                                             ->whereMonth('masa_tanam', '=', date('m'))
                                             ->paginate(20);
            
-        $data['pengeluaran'] = $pengeluaran;
+        $data['pengeluaran']  = $pengeluaran;
            
         $data['total_real']   = pengeluaran::whereYear('masa_tanam','=', date('Y'))
                                              ->whereMonth('masa_tanam', '=', date('m'))
                                              ->sum('total_realisasi');
-          
-        $data['saldo']       = 40000;
         $data['y']           = date('Y');
         $data['m']           = date('m');
-     //    $data['saldo']      = transaksi::latest()->first();
+        $data['saldo']       = transaksi::latest()->first();
     //     $pema               = labarugi::whereYear('created_at', '=', date('Y'))
     //                                         ->whereMonth('created_at', '=', date('m')-1)
     //                                         ->sum('pemasukan');
@@ -52,25 +52,68 @@ class PengeluaranController extends Controller
         return view('pengeluaran.edit',$data);
     }
 
+    public function detail($id)
+    {
+        $data['pengeluaran']   = pengeluaran::find($id);
+        return view('pengeluaran.detail',$data);
+    }
+
     public function update($id, createPengeluaran $request)
     {
         $data = $request->all();
 
         $pengeluaran = pengeluaran::find($id);      
-    
-        $pengeluaran->update($data);
-        
-        harga_pokok::create(array(  'masa_tanam'    =>$data['masa_tanam'],
-                                    'sayur_id'      =>$data['sayur_id'],
-                                    'nama_sayur'    =>$data['nama_sayur'],
-                                    'pengeluaran_id'=>$pengeluaran->id,
-                                    'pengeluaran'   =>$data['total_realisasi'],
-                                    ));
 
-        pemasukan::create(array(    'masa_tanam'    =>$data['masa_tanam'],
-                                    'id_sayur'      =>$data['sayur_id'],
-                                    'nama_sayur'    =>$data['nama_sayur'],
-                                    ));
+        $saldo = transaksi::latest()->first();
+        
+            if ($saldo)
+            {
+                $saldo = $saldo->saldo - $data['total_realisasi'];
+
+                if($saldo>0)
+                {
+                    $pengeluaran->update($data);
+        
+                    harga_pokok::create(array(  'masa_tanam'    =>$data['masa_tanam'],
+                                                'sayur_id'      =>$data['sayur_id'],
+                                                'nama_sayur'    =>$data['nama_sayur'],
+                                                'pengeluaran_id'=>$pengeluaran->id,
+                                                'pengeluaran'   =>$data['total_realisasi'],
+                                                ));
+
+                    pemasukan::create(array(    'masa_tanam'    =>$data['masa_tanam'],
+                                                'id_sayur'      =>$data['sayur_id'],
+                                                'nama_sayur'    =>$data['nama_sayur'],
+                                                ));
+
+                    transaksi::create(array(    'tgl_transaksi' =>$data['masa_tanam'],
+                                                'deskripsi'     =>'Belanja modal sayur '.$data['nama_sayur'],
+                                                'pengeluaran_id'=>$pengeluaran->id,
+                                                'pengeluaran'   =>$data['total_realisasi'],
+                                                'saldo'         =>$saldo,
+                                                ));
+
+                    labarugi::create(array(     'periode'       =>$data['masa_tanam'],
+                                                'deskripsi'     =>'Belanja modal sayur '.$data['nama_sayur'],
+                                                'realisasi_id'  =>$pengeluaran->id,
+                                                'pengeluaran'   =>$data['total_realisasi'],
+                                                ));
+                }
+                else
+                {
+                    \Flash::error('Maaf saldo tidak cukup untuk realisasi');
+                    return redirect('pengeluaran');
+                }
+
+            }
+            else
+            {
+                \Flash::error('Maaf saldo tidak cukup untuk realisasi');
+                return redirect('pengeluaran');
+            }
+        
+
+
 
         return redirect('pengeluaran');
     }
@@ -174,9 +217,7 @@ class PengeluaranController extends Controller
         $data['pengeluaran']= $pengeluaran;
         $data['y']          = $year;
         $data['m']          = $month;
-        $data['saldo']      = 4000000;                                    
-        
-        //$data['saldo']      = transaksi::latest()->first();
+        $data['saldo']      = transaksi::latest()->first();
         return view('pengeluaran.index',$data);
     }
 

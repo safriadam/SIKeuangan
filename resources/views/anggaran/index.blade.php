@@ -11,7 +11,7 @@
         </div>
 		<div class="col-sm-4">
 			<h4>Saldo saat ini:</h4> 
-			<tr><td>{!! Form::text('saldo', $saldo ,['class'=>'form-control']) !!}</td></tr>
+			<tr><td>{!! Form::text('saldo', number_format($saldo->saldo) ,['class'=>'form-control']) !!}</td></tr>
 		</div>
 		<div class="col-sm-4">
 			<h4>Anggaran Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->

@@ -23,17 +23,14 @@ class AnggaranController extends Controller
   		   $anggaran = anggaran::whereYear('masa_tanam','=', date('Y'))
                                ->whereMonth('masa_tanam', '=', date('m'))
                                ->paginate(20);
-            // return $anggaran; //->> buat ngetes apakah data berhasil di load
-            // die;
            $data['anggaran']   = $anggaran;
            
            $data['total_ang']  = anggaran::whereYear('masa_tanam','=', date('Y'))
                                             ->whereMonth('masa_tanam', '=', date('m'))
                                             ->sum('tot_anggaran');
-           $data['saldo']      = 40000;
            $data['y']          = date('Y');
            $data['m']          = date('m');
-     //    $data['saldo']      = transaksi::latest()->first();
+           $data['saldo']      = transaksi::latest()->first();
     //     $pema               = labarugi::whereYear('created_at', '=', date('Y'))
     //                                         ->whereMonth('created_at', '=', date('m')-1)
     //                                         ->sum('pemasukan');

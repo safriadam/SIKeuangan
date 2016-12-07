@@ -4,6 +4,7 @@
  
 
 <div class="container">
+@include('flash::message')
 		<div class="row">
               <div class="col-lg-12">
                 <h3 class="page-header"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Realisasi</h3>
@@ -11,7 +12,7 @@
         </div>
 		<div class="col-sm-4">
 			<h4>Saldo saat ini:</h4> 
-			<tr><td>{!! Form::text('saldo', $saldo ,['class'=>'form-control']) !!}</td></tr>
+			<tr><td>{!! Form::text('saldo', number_format($saldo->saldo) ,['class'=>'form-control']) !!}</td></tr>
 		</div>
 		<div class="col-sm-4">
 			<h4>Realisasi Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->

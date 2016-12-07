@@ -11,11 +11,11 @@
         </div>
 		<div class="col-sm-4">
 			<h4>Saldo saat ini:</h4> 
-			<tr><td>{!! Form::text('saldo', $saldo ,['class'=>'form-control']) !!}</td></tr>
+			<tr><td>{!! Form::text('saldo', number_format($saldo->saldo) ,['class'=>'form-control']) !!}</td></tr>
 		</div>
 		<div class="col-sm-4">
-			<h4>Realisasi Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->
-				{!! Form::open(array('url'=>'bulanan/tahunBulan')) !!}
+			<h4>Periode: </h4> <!-- untuk pilih periode masa tanam  -->
+				{!! Form::open(array('url'=>'laporan/bulanan/tahunBulan')) !!}
 				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field']) !!}
 				{{ Form::select('masaTanam', [
 								   '1' => 'Januari - Maret',
@@ -48,27 +48,23 @@
 			<th>Deskripsi</th>
 			<th>Pemasukan</th>
 			<th>Pengeluaran</th>
-			<th colspan="2">Aksi</th></tr>
+			<th>Aksi</th>
+		</tr>
 		<?php $no = 1; ?>
-		@foreach ( $pengeluaran as $n)
+		@foreach ( $transaksi as $n)
 		<tr>
 		<td width="50px" align="center">{{ $no++ }}</td>
-		<td width="200px">{{ $n->masa_tanam->format('F') }} - {{ $n->masa_tanam->modify('+2 month')->format('F') }}</td> 
-		<td width="200px">{{ $n->nama_sayur }}</td>
-		<td width="140px">{{ number_format($n->real_bibit) }}</td>
-		<td width="140px">{{ number_format($n->real_nutrisi) }}</td>
-		<td width="140px">{{ number_format($n->real_bahan_lain) }}</td>
-		<td width="140px">{{ number_format($n->total_realisasi) }}</td>
+		<td width="100px">{{ $n->tgl_transaksi }}</td> 
+		<td width="250px">{{ $n->deskripsi }}</td>
+		<td width="140px">{{ number_format($n->pemasukan) }}</td>
+		<td width="140px">{{ number_format($n->pengeluaran) }}</td>
 
-		@if ($n->total_realisasi) 
-				<td width="50px"><button type="button" class="btn btn-success btn-sm disabled">Realiasikan</button></td>	
+		@if ($n->pengeluaran)
+
+				<td width="50px">{!! link_to('pengeluaran/'.$n->pengeluaran_id.'/detail','Detail',['class'=>'btn btn-success btn-sm']) !!}</td>
 		@else
-				<td width="50px">{!! link_to('pengeluaran/'.$n->id.'/edit','Realisasikan',['class'=>'btn btn-success btn-sm']) !!}</td>
+				<td></td>
 		@endif
-		 </tr>
-		 <tr>
-		 	<td></td>
-		 </tr>
 
 		
 		
@@ -76,7 +72,7 @@
 		@endforeach
 		
 	</table>
-	{!! $pengeluaran->render() !!}
+	{!! $transaksi->render() !!}
 			
 			
 </div>

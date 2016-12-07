@@ -70,6 +70,10 @@ Route::group(['middleware' => 'auth'], function ()
 	route::get('laporan/labarugi',function(){
 		return view('laporan.labarugi');
 	});
+
+
+	Route::get('pengeluaran/{pengeluaran}/detail','PengeluaranController@detail');
+
 	Route::get('laporan/harga','LaporanController@harga');
 	Route::post('laporan/harga/hasilHarga','LaporanController@hasilHarga');
 	Route::get('laporan/labarugi','LaporanController@labarugi');

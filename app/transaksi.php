@@ -9,7 +9,7 @@ use App\pengeluaran;
 class transaksi extends Model
 {
     //protected $dateFormat = 'U';
-    protected $fillable = ['tanggal_transaksi','pengeluaran_id','pemasukan_id','pemasukan','pengeluaran','saldo','deskripsi',];
+    protected $fillable = ['tgl_transaksi','pengeluaran_id','pemasukan_id','pemasukan','pengeluaran','saldo','deskripsi',];
 
     public function pemasukan()
     {
