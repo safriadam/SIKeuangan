@@ -7,7 +7,7 @@ use App\User;
 class pengguna extends Model
 {
     protected $fillable = [
-        'name', 'email', 'password','jabatan',
+        'name', 'email', 'password','jabatan','status',
     ];
 
    

@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function ()
 
 
 	Route::get('pengeluaran/{pengeluaran}/detail','PengeluaranController@detail');
-
+	Route::get('pengguna/{pengguna}/reset','PenggunaController@reset');
 	Route::get('laporan/harga','LaporanController@harga');
 	Route::post('laporan/harga/hasilHarga','LaporanController@hasilHarga');
 	Route::get('laporan/labarugi','LaporanController@labarugi');

@@ -62,16 +62,49 @@ class PenggunaController extends Controller
     //     return redirect('pengguna');
     // }
 
-    // public function edit($id)
-    // {
-    //     $data['pengguna'] = User::find($id);
-    //     return view('pengguna.edit',$data);
-    // }
+    public function edit($id)
+    {
+        $pengguna = User::find($id);
 
-    // public function Show()
-    // {
-    //     return redirect('pengguna');
-    // }
+        $identitas = Auth()->user()->id;
+
+        if ($identitas == $id) {
+
+                \Flash::error('Maaf anda tidak dapat menonaktifkan anda sendiri');
+
+                return redirect('pengguna');
+            }
+
+        elseif($pengguna->status == 'AKTIF')
+            {
+                $pengguna->status = 'NONAKTIF';
+                $pengguna->save();
+            }
+        else
+            {
+                $pengguna->status = 'AKTIF';
+                $pengguna->save();
+            }
+
+        return redirect('pengguna');
+    }
+
+    public function reset($id)
+    {
+        $pengguna = User::find($id);
+        $pengguna->password = bcrypt('123456');
+        $pengguna->save();
+
+        \Flash::success('password '.$pengguna->name.' telah direset menjadi: 123456 ');
+
+        return redirect('pengguna');
+    }
+
+    public function show($id)
+    {
+        $data['penguna']    = user::find($id);
+        return view('pengguna.show',$data);
+    }
    
     public function destroy($id)
     {
