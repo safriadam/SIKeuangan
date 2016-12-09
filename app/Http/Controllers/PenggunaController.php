@@ -44,7 +44,7 @@ class PenggunaController extends Controller
     {
            $name = $request['name'];
            $email = $request['email'];
-           $password = bcrypt($request['password']);
+           $password = bcrypt('123456');
            $jabatan  = $request['jabatan'];
            User::create(array('name'=> $name,'email'=>$email,'password'=>$password,'jabatan'=>$jabatan));
         return redirect('pengguna');
@@ -104,6 +104,12 @@ class PenggunaController extends Controller
     {
         $data['penguna']    = user::find($id);
         return view('pengguna.show',$data);
+    }
+
+    public function profil($id)
+    {
+        $data['penguna']    = user::find($id);
+        return view('pengguna.profil',$data);
     }
    
     public function destroy($id)

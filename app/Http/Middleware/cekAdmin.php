@@ -19,7 +19,7 @@ class cekAdmin
     
    public function handle($request, Closure $next)
     {
-        if($request->user()->jabatan !='ADMIN')
+        if($request->user()->jabatan !='KETUA')
         {
             return redirect('/');
         }

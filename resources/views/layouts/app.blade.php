@@ -104,41 +104,36 @@
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         
-                    @elseif(Auth::user()->jabatan =='ADMIN')
+                    @elseif(Auth::user()->jabatan =='KETUA')
                         <li><a href="{{ url('/pengguna') }}">Pengguna</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 {{ Auth::user()->name }}<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('pengguna/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                                <li><a href="{{ url('/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                             </ul>
                         </li>
                     @elseif(Auth::user()->jabatan =='BENDAHARA')
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="profile-ava">
-                                    <img alt="" src="img/avatar-mini2.jpg" width="20" height="20" class="img-responsive">
-                                    </span>{{ Auth::user()->name }}<span class="caret"></span>
+                               {{ Auth::user()->name }}<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('pengguna/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                                <li><a href="{{ url('/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                             </ul>
                         </li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <span class="profile-ava">
-                                        <img alt="" src="img/avatar-mini2.jpg" width="20" height="20" class="img-responsive">
-                                    </span>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('pengguna/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                                <li><a href="{{ url('/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                             </ul>
                         </li>
                     @endif

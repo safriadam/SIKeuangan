@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function ()
 	Route::post('pengeluaran/tahunBulan','PengeluaranController@tahunBulan');
 	Route::post('pengeluaran/pdf','PengeluaranController@pdf');
 	Route::get('pengeluaran/pdf','PengeluaranController@pdf');
+	Route::get('pengeluaran/{pengeluaran}/detail','PengeluaranController@detail');
 
 
 	//pemasukan------------------------------------------------------------------------>>
@@ -71,9 +72,7 @@ Route::group(['middleware' => 'auth'], function ()
 		return view('laporan.labarugi');
 	});
 
-
-	Route::get('pengeluaran/{pengeluaran}/detail','PengeluaranController@detail');
-	Route::get('pengguna/{pengguna}/reset','PenggunaController@reset');
+		
 	Route::get('laporan/harga','LaporanController@harga');
 	Route::post('laporan/harga/hasilHarga','LaporanController@hasilHarga');
 	Route::get('laporan/labarugi','LaporanController@labarugi');
@@ -96,6 +95,10 @@ Route::group(['middleware' => 'auth'], function ()
 		return view('sayuran.create');
 	});
 
+	//pengguna-------------------------------------------------------------------------------------->>
+
+	Route::get('pengguna/{pengguna}/reset','PenggunaController@reset');
+	Route::get('pengguna/{pengguna}/profil','PenggunaController@profil');
 
 	//all resource -------------------------------------------------------------------------------->>
 
