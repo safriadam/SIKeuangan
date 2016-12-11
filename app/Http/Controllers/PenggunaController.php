@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use Cartalyst\Alerts\Native\Facades\Alert;
 use Illuminate\Http\Request;
 use App\pengguna;
 use App\User;
 use Validator;
 use App\Http\Requests;
+use App\Http\Requests\simpanProfil;
 
 class PenggunaController extends Controller
 {
@@ -40,7 +40,7 @@ class PenggunaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(request $request)
     {
            $name = $request['name'];
            $email = $request['email'];
@@ -100,15 +100,32 @@ class PenggunaController extends Controller
         return redirect('pengguna');
     }
 
-    public function show($id)
-    {
-        $data['penguna']    = user::find($id);
-        return view('pengguna.show',$data);
-    }
+    
 
     public function profil($id)
     {
-        $data['penguna']    = user::find($id);
+        $data['pengguna']    = user::find($id);
+        $data['nama']       = null;
+        $data['email']       = null;
+        return view('pengguna.profil',$data);
+    }
+
+
+    public function simpan(simpanProfil $request, $id)
+    {
+        $pengguna = User::find($id);
+        $password = $request['password'];
+
+        $pengguna->name = $request['name'];
+        $pengguna->email = $request['email'];
+        $pengguna->password = bcrypt($password);
+        $pengguna->save();
+
+        \Flash::success('profil '.$pengguna->name.' telah berhasil disimpan');
+
+        $data['pengguna']    = user::find($id);
+        $data['nama']        = null;
+        $data['email']       = null;
         return view('pengguna.profil',$data);
     }
    

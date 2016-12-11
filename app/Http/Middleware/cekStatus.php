@@ -7,7 +7,7 @@ use Auth;
 use Illuminate\Contracts\Routing\Middleware;
 
 
-class cekAdmin 
+class cekStatus
 {
     /**
      * Handle an incoming request.
@@ -16,16 +16,15 @@ class cekAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    
-   public function handle($request, Closure $next)
+    public function handle($request, Closure $next)
     {
-
         $status  = $request->user()->status;
-        if($request->user()->jabatan !='KETUA' || $status != 'AKTIF')
-        {
-            return redirect('/');
-        }
         
+
+        if ($status != 'AKTIF'){
+
+            return redirect('forbidden');
+        }
         return $next($request);
     }
 }

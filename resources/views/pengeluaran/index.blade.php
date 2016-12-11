@@ -69,9 +69,12 @@
 		<td width="140px">{{ number_format($n->total_realisasi) }}</td>
 
 		@if ($n->total_realisasi) 
-				<td width="50px"><button type="button" class="btn btn-success btn-sm disabled">Realiasikan</button></td>	
+				<td width="50px"><button type="button" class="btn btn-success btn-sm disabled">Realiasikan</button></td>
+				<td width="50px">{!! link_to('pengeluaran/'.$n->id.'/detail','Detail',['class'=>'btn btn-success btn-sm']) !!}</td>
 		@else
 				<td width="50px">{!! link_to('pengeluaran/'.$n->id.'/edit','Realisasikan',['class'=>'btn btn-success btn-sm']) !!}</td>
+				<td width="50px">{!! link_to('pengeluaran/'.$n->id.'/detail','Detail',['class'=>'btn btn-success btn-sm']) !!}
+				</td>
 		@endif
 		 </tr>
 

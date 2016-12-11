@@ -111,7 +111,7 @@
                                 {{ Auth::user()->name }}<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('pengguna/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
+                                <li><a href="{{ url('pengguna/'.Auth::user()->id.'/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -121,7 +121,7 @@
                                {{ Auth::user()->name }}<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('pengguna/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
+                                <li><a href="{{ url('pengguna/'.Auth::user()->id.'/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -132,7 +132,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('pengguna/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
+                                <li><a href="{{ url('pengguna/'.Auth::user()->id.'/profil') }}"><i class="fa fa-btn fa fa-user"></i></i>Profil</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>

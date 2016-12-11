@@ -63,7 +63,7 @@
 
                             <div class="col-md-6">
                                 <select class="form-control" name='jabatan'>
-                                  <option value="ADMIN">ADMIN</option>
+                                  <option value="KETUA">KETUA</option>
                                   <option value="BENDAHARA">BENDAHARA</option>
                                   <option value="ANGGOTA" selected>ANGGOTA</option>
                                 </select>

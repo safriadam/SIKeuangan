@@ -50,5 +50,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'periksaAdmin' => \App\Http\Middleware\cekAdmin::class,
+        'aktif' => \App\Http\Middleware\cekStatus::class,
     ];
 }

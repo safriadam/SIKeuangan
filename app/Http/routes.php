@@ -10,8 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['middleware' => 'auth'], function ()
+Route::group(['middleware' =>['auth','aktif']], function ()
 {
+
+	
 
 	//dashboard---------------------------------------------->>
 	Route::get('dashboard', function () {
@@ -97,8 +99,9 @@ Route::group(['middleware' => 'auth'], function ()
 
 	//pengguna-------------------------------------------------------------------------------------->>
 
-	Route::get('pengguna/{pengguna}/reset','PenggunaController@reset');
+	
 	Route::get('pengguna/{pengguna}/profil','PenggunaController@profil');
+	Route::patch('pengguna/{pengguna}/simpan','PenggunaController@simpan');
 
 	//all resource -------------------------------------------------------------------------------->>
 
@@ -121,9 +124,14 @@ Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
+Route::get('forbidden', function () {
+	    return view('forbidden'); 
+	});
+
+
 // daftarkan pengguna alias register========================--------------------------->>
 
- Route::group(['middleware' => ['auth', 'periksaAdmin']], function () 
+ Route::group(['middleware' => ['auth', 'periksaAdmin','aktif']], function () 
  	{
  		Route::get('pengguna',function() 
  			{
@@ -134,4 +142,6 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 				return view('pengguna.create');
 			});
 		Route::resource('pengguna', 'PenggunaController');
+
+		Route::get('pengguna/{pengguna}/reset','PenggunaController@reset');
     });
