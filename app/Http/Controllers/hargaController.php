@@ -108,4 +108,57 @@ class hargaController extends Controller
         $data['saldo']          = 40000; //transaksi::latest()->first();
         return view('hargapokok.index',$data);
     }
+
+    public function hargapdf(request $request)
+    {
+
+        $month              = $request['month'];
+        $year               = $request['year'];
+        $hargapokok         = harga_pokok::whereYear('masa_tanam','=',$year)
+                                        ->whereMonth('masa_tanam', '=', $month)
+                                        ->paginate(50);
+
+        $monthName = date("F", mktime(0, 0, 0, $month, 1));
+        $operation = $month+2;
+        $nextmonthName = date("F", mktime(0, 0, 0, $operation, 1));
+
+        $pdf = new \fpdf\FPDF();
+        $pdf->AddPage();
+        $pdf->SetTitle('Cetak Anggaran');
+        //headernya
+                // Select Arial bold 15
+            $pdf->SetFont('Arial','B',15);
+            // Move to the right
+            $pdf->Cell(80);
+            // Framed title
+            $pdf->Cell(30,10,'Sistem Informasi Keuangan ASRI 12 Kauman',0,1,'C');
+            $pdf->Cell(65);
+            $pdf->Cell(60,10,'HARGA JUAL PRODUK',1,0,'C');
+            // Line break
+            $pdf->Ln(20);
+                
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(35,8,'Masa Tanam          : ',0,0);
+        $pdf->Cell(21,8,$monthName.' -',0,0);
+        $pdf->Cell(18,8,$nextmonthName,0,0);
+        $pdf->Cell(10,8, $year,0,1);
+        $pdf->Cell(35,8,'Dicetak tanggal     : ',0,0);
+        $pdf->Cell(8,8, date('d/m/Y'),0,1);
+         $pdf->Ln(5);
+        $pdf->Cell(8,8,'No',1,0);
+        $pdf->Cell(50,8,'Nama Sayur',1,0);
+        $pdf->Cell(39,8,'Harga Jual',1,1);
+
+        
+        $no = 1;                                
+        $pdf->SetFont('Arial','',8);
+        foreach ($hargapokok as $a) {
+        $pdf->Cell(8,8,$no,1,0);
+        $pdf->Cell(50,8,$a->nama_sayur,1,0);
+        $pdf->Cell(39,8,number_format($a->harga_jual),1,1);
+        $no++;
+        }
+        $pdf->Output();
+        die;
+    }
 }

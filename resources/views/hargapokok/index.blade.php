@@ -12,7 +12,7 @@
 		<div class="col-sm-4">
 			<h4>Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->
 				{!! Form::open(array('url'=>'harga/tahunBulan')) !!}
-				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field']) !!}
+				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}
 				{{ Form::select('masaTanam', [
 								   '1' => 'Januari - Maret',
 								   '2' => 'Februari - April',
@@ -25,11 +25,21 @@
 								   '9' => 'September - November',
 								   '10' => 'Oktober - Desember',
 								   '11' => 'November - Januari',
-								   '12' => 'Desember - Februari'], $m, ['class' => 'field']
+								   '12' => 'Desember - Februari'], $m, ['class' => 'field input-sm']
 									) }}
 				{!! form::submit('Tampilkan',['class'=>'btn btn-info btn-sm']) !!}
 				{!! form::close() !!}
 		</div>
+		<div class="col-sm-3">
+		<h4>Cetak Harga: </h4>
+			<div class="btn-group">
+				{!! Form::open(array('url'=>'harga/hargapdf')) !!}
+				{!! Form::hidden('year', $y) !!}
+				{!! Form::hidden('month', $m) !!}
+				{!! form::submit('Cetak PDF',['class'=>'btn btn-success btn-md']) !!}
+				{!! form::close() !!}
+			</div>
+	</div>
 	
 </div>
 	

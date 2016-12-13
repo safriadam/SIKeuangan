@@ -13,6 +13,24 @@
             </div>
                   
             <div class="row">
+                @if (Auth::user()->jabatan == 'ANGGOTA')
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                  <div class="info-box yellow-bg" align="center">
+                    <a href="{{ url('laporan')}}"><img src="img/laporan.png"  width="120" height="120" class="img-responsive"></a>
+                    <h3>LAPORAN</h3>           
+                  </div><!--/.info-box-->     
+                </div><!--/.col-->
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                  <div class="info-box green-bg" align="center">
+                    <a href="{{ url('sayuran')}}"><img src="img/sayuran.png"  width="120" height="120" class="img-responsive"></a>
+                    <h3>SAYURAN</h3>           
+                  </div><!--/.info-box-->     
+                </div><!--/.col-->
+
+                @else
+
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="info-box blue-bg" align="center">
                     <a href="{{ url('anggaran')}}"><img src="img/anggaran.png"  width="120" height="120" class="img-responsive"></a>
@@ -33,7 +51,6 @@
                     <h3>PEMASUKAN</h3>            
                   </div><!--/.info-box-->     
                 </div><!--/.col-->
-                
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="info-box yellow-bg" align="center">
                     <a href="{{ url('laporan')}}"><img src="img/laporan.png"  width="120" height="120" class="img-responsive"></a>
@@ -47,6 +64,8 @@
                     <h3>SAYURAN</h3>           
                   </div><!--/.info-box-->     
                 </div><!--/.col-->
+
+                @endif
             </div>         
            
 </div>  

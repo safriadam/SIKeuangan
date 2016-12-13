@@ -90,20 +90,32 @@ class LaporanController extends Controller
         $pdf->Cell(25,8,'Pengeluaran',1,0);
         $pdf->Cell(25,8,'Saldo',1,1);
 
-        $transaksi          = transaksi::whereYear('created_at', '=', $year )
-                              ->whereMonth('created_at', '=', $month )
-                              ->paginate(80); 
+        $transaksi          = transaksi::whereYear('tgl_transaksi', '=', $year )
+                              ->whereMonth('tgl_transaksi', '=', $month )
+                              ->paginate(80);
+        $totpema            = transaksi::whereYear('tgl_transaksi', '=', $year )
+                              ->whereMonth('tgl_transaksi', '=', $month )
+                              ->sum('pemasukan');
+        $totpeng            = transaksi::whereYear('tgl_transaksi', '=', $year )
+                              ->whereMonth('tgl_transaksi', '=', $month )
+                              ->sum('pengeluaran');
+
         $no = 1;                             
         $pdf->SetFont('Arial','',8);
         foreach ($transaksi as $a) {
         $pdf->Cell(8,8,$no,1,0);
-        $pdf->Cell(18,8,$a->created_at->format('d-m-Y'),1,0);
+        $pdf->Cell(18,8,$a->tgl_transaksi,1,0);
         $pdf->Cell(90,8,$a->deskripsi,1,0);
         $pdf->Cell(25,8,number_format($a->pemasukan),1,0);
         $pdf->Cell(25,8,number_format($a->pengeluaran),1,0);
         $pdf->Cell(25,8,number_format($a->saldo),1,1);
         $no++;
         }
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(116,8,'TOTAL',1,0);
+        $pdf->Cell(25,8,number_format($totpema),1,0);
+        $pdf->Cell(25,8,number_format($totpeng),1,1);
+        
         $pdf->Output();
         die;
     }
@@ -147,7 +159,10 @@ class LaporanController extends Controller
     {
         $month              = $request['month'];
         $year               = $request['year'];
-        $monthName = date("F", mktime(0, 0, 0, $month, 10));
+
+        $monthName = date("F", mktime(0, 0, 0, $month, 1));
+        $operation = $month+2;
+        $nextmonthName = date("F", mktime(0, 0, 0, $operation, 1));
 
         $labarugi               = labarugi::whereYear('created_at', '=', $year)
                                             ->whereMonth('created_at', '=', $month)
@@ -175,8 +190,9 @@ class LaporanController extends Controller
             // Line break
             $pdf->Ln(20);
         $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(38,8,'Laba-Rugi Periode : ',0,0);
-        $pdf->Cell(20,8, $monthName,0,0);
+        $pdf->Cell(36,8,'Masa Tanam           : ',0,0);
+        $pdf->Cell(21,8,$monthName.' -',0,0);
+        $pdf->Cell(18,8,$nextmonthName,0,0);
         $pdf->Cell(8,8, $year,0,1);
         $pdf->Cell(35,8,'Dicetak tanggal      : ',0,0);
         $pdf->Cell(8,8, date('d/m/Y'),0,1);

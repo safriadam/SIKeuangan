@@ -13,7 +13,8 @@ use App\sayuran;
 use App\transaksi;
 use App\labarugi;
 use App\Http\Requests\createAnggaran;
-
+use Carbon\Carbon;
+use DateTime;
 
 class AnggaranController extends Controller
 {
@@ -31,15 +32,6 @@ class AnggaranController extends Controller
            $data['y']          = date('Y');
            $data['m']          = date('m');
            $data['saldo']      = transaksi::latest()->first();
-    //     $pema               = labarugi::whereYear('created_at', '=', date('Y'))
-    //                                         ->whereMonth('created_at', '=', date('m')-1)
-    //                                         ->sum('pemasukan');
-    //     $penge              = labarugi::whereYear('created_at', '=', date('Y'))
-    //                                         ->whereMonth('created_at', '=', date('m')-1)
-    //                                         ->sum('pengeluaran');                                   
-    //     $data['labarugi']   = $pema - $penge;
-    
-
             
         return view('anggaran.index',$data);  
 
@@ -118,16 +110,6 @@ class AnggaranController extends Controller
         return redirect('anggaran');
     }
 
-    public function search(request $request)
-    {
-        $keyword            = $request['keyword'];
-        $anggaran           = anggaran::where('nama_item_anggaran', 'LIKE', '%'.$keyword.'%')->paginate(15);
-        $data['saldo']      = transaksi::latest()->first();
-        $data['anggaran']   = $anggaran;
-        $data['y']          = date('Y');
-        $data['m']          = date('m');
-        return view('anggaran.index',$data);
-    }
     
     public function tahunBulan(request $request)
     {
@@ -145,17 +127,7 @@ class AnggaranController extends Controller
         $data['anggaran']   = $anggaran;
         $data['y']          = $year;
         $data['m']          = $month;
-        $data['saldo']      = 4000000;   //transaksi::latest()->first();
-        // $pema               = labarugi::whereYear('created_at', '=', $year)
-        //                                     ->whereMonth('created_at', '=', $month-1)
-        //                                     ->sum('pemasukan');
-        // $penge              = labarugi::whereYear('created_at', '=', $year)
-        //                                     ->whereMonth('created_at', '=', $month-1)
-        //                                     ->sum('pengeluaran');                                   
-        //$data['labarugi']   = $pema - $penge;
-        //$data['totalmod']   = anggaran::whereYear('periode','=',$year)
-        //                                    ->whereMonth('periode', '=',$month)
-        //                                   ->sum('anggaran');
+        $data['saldo']      = transaksi::latest()->first();
         
         return view('anggaran.index',$data);
     }
@@ -164,13 +136,21 @@ class AnggaranController extends Controller
     {
         $month              = $request['month'];
         $year               = $request['year'];
-        $totalmod           = anggaran::whereYear('periode','=',$year)
-                                            ->whereMonth('periode', '=', $month)
-                                            ->sum('anggaran');
-        $monthName = date("F", mktime(0, 0, 0, $month, 10));
+        $totalang           = anggaran::whereYear('masa_tanam','=',$year)
+                                        ->whereMonth('masa_tanam', '=', $month)
+                                        ->sum('tot_anggaran');
+
+        $anggaran           = anggaran::whereYear('masa_tanam', '=', $year )
+                                         ->whereMonth('masa_tanam', '=', $month )
+                                         ->paginate(50);
+
+        $monthName = date("F", mktime(0, 0, 0, $month, 1));
+        $operation = $month+2;
+        $nextmonthName = date("F", mktime(0, 0, 0, $operation, 1));
+
         $pdf = new \fpdf\FPDF();
         $pdf->AddPage();
-        $pdf->SetTitle('Cetak Belanja Modal');
+        $pdf->SetTitle('Cetak Anggaran');
         //headernya
                 // Select Arial bold 15
             $pdf->SetFont('Arial','B',15);
@@ -179,42 +159,41 @@ class AnggaranController extends Controller
             // Framed title
             $pdf->Cell(30,10,'Sistem Informasi Keuangan ASRI 12 Kauman',0,1,'C');
             $pdf->Cell(65);
-            $pdf->Cell(60,10,'Belanja Modal',1,0,'C');
+            $pdf->Cell(60,10,'ANGGARAN',1,0,'C');
             // Line break
             $pdf->Ln(20);
                 
         $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(35,8,'Periode                  : ',0,0);
-        $pdf->Cell(20,8, $monthName,0,0);
-        $pdf->Cell(8,8, $year,0,1);
+        $pdf->Cell(35,8,'Masa Tanam          : ',0,0);
+        $pdf->Cell(21,8,$monthName.' -',0,0);
+        $pdf->Cell(18,8,$nextmonthName,0,0);
+        $pdf->Cell(10,8, $year,0,1);
         $pdf->Cell(35,8,'Dicetak tanggal     : ',0,0);
         $pdf->Cell(8,8, date('d/m/Y'),0,1);
          $pdf->Ln(5);
         $pdf->Cell(8,8,'No',1,0);
-        $pdf->Cell(30,8,'Periode',1,0);
-        $pdf->Cell(65,8,'Nama Item',1,0);
-        $pdf->Cell(30,8,'Harga Satuan',1,0);
-        $pdf->Cell(20,8,'QTY',1,0);
-        $pdf->Cell(25,8,'Anggaran',1,1);
+        $pdf->Cell(50,8,'Nama Sayur',1,0);
+        $pdf->Cell(27,8,'Bibit',1,0);
+        $pdf->Cell(27,8,'Nutrisi',1,0);
+        $pdf->Cell(30,8,'Bahan Lain',1,0);
+        $pdf->Cell(39,8,'Total Anggaran',1,1);
 
-        $anggaran  = anggaran::whereYear('periode', '=', $year )
-                             ->whereMonth('periode', '=', $month )
-                             ->paginate(50);
+        
         $no = 1;                                
         $pdf->SetFont('Arial','',8);
         foreach ($anggaran as $a) {
         $pdf->Cell(8,8,$no,1,0);
-        $pdf->Cell(30,8,$a->periode,1,0);
-        $pdf->Cell(65,8,$a->nama_item_anggaran,1,0);
-        $pdf->Cell(30,8,number_format($a->harga_satuan),1,0);
-        $pdf->Cell(20,8,$a->qty,1,0);
-        $pdf->Cell(25,8,number_format($a->anggaran),1,1);
+        $pdf->Cell(50,8,$a->nama_sayur,1,0);
+        $pdf->Cell(27,8,number_format($a->bibit),1,0);
+        $pdf->Cell(27,8,number_format($a->nutrisi),1,0);
+        $pdf->Cell(30,8,number_format($a->bahan_lain),1,0);
+        $pdf->Cell(39,8,number_format($a->tot_anggaran),1,1);
         $no++;
         }
         $pdf->SetFont('Arial','B',10);
         $pdf->Ln(4);
-        $pdf->Cell(30,8,'Total Belanja: Rp',0,0);
-        $pdf->Cell(25,8, number_format($totalmod),0,1);
+        $pdf->Cell(35,8,'Total Anggaran: Rp',0,0);
+        $pdf->Cell(25,8, number_format($totalang),0,1);
         $pdf->Output();
         die;
     }

@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Auth;
+use Illuminate\Contracts\Routing\Middleware;
+
+class cekAnggota
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+
+        $jabatan  = $request->user()->jabatan;
+
+        if($jabatan =='ANGGOTA')
+        {
+            return redirect('/');
+        }
+        
+        return $next($request);
+    }
+}

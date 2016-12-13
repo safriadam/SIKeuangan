@@ -105,8 +105,9 @@ class PenggunaController extends Controller
     public function profil($id)
     {
         $data['pengguna']    = user::find($id);
-        $data['nama']       = null;
+        $data['nama']        = null;
         $data['email']       = null;
+        $data['jabatan']     = null;
         return view('pengguna.profil',$data);
     }
 

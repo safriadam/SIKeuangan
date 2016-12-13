@@ -10,14 +10,14 @@
                 <h3 class="page-header"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Realisasi</h3>
               </div>
         </div>
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<h4>Saldo saat ini:</h4> 
 			<tr><td>{!! Form::text('saldo', number_format($saldo->saldo) ,['class'=>'form-control']) !!}</td></tr>
 		</div>
 		<div class="col-sm-4">
 			<h4>Realisasi Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->
 				{!! Form::open(array('url'=>'pengeluaran/tahunBulan')) !!}
-				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field']) !!}
+				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}
 				{{ Form::select('masaTanam', [
 								   '1' => 'Januari - Maret',
 								   '2' => 'Februari - April',
@@ -30,16 +30,27 @@
 								   '9' => 'September - November',
 								   '10' => 'Oktober - Desember',
 								   '11' => 'November - Januari',
-								   '12' => 'Desember - Februari'], $m, ['class' => 'field']
+								   '12' => 'Desember - Februari'], $m, ['class' => 'field input-sm']
 									) }}
 				{!! form::submit('Tampilkan',['class'=>'btn btn-info btn-sm']) !!}
 				{!! form::close() !!}
 		</div>
 
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<H4>Total Realisasi:</H4>
 			{!! Form::text('total_real', number_format($total_real) ,['class'=>'form-control']) !!}
 		</div>
+		<div class="col-sm-2">
+			<H4>Cetak Realisasi:</H4>
+			<div class="btn-group">
+				{!! Form::open(array('url'=>'pengeluaran/pdf')) !!}
+				{!! Form::hidden('year', $y) !!}
+				{!! Form::hidden('month', $m) !!}
+				{!! form::submit('Cetak PDF',['class'=>'btn btn-success btn-md']) !!}
+				{!! form::close() !!}
+			</div>
+		</div>
+		
 	
 </div>
 	

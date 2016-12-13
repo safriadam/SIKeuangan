@@ -225,14 +225,21 @@ class PengeluaranController extends Controller
     {
         $month              = $request['month'];
         $year               = $request['year'];
-        $saldo              = transaksi::latest()->first();
-        $total              = pengeluaran::whereYear('created_at','=',$year)
-                                         ->whereMonth('created_at', '=', $month)
-                                         ->sum('pengeluaran');
-        $monthName = date("F", mktime(0, 0, 0, $month, 10));
+        $totalreal         = pengeluaran::whereYear('masa_tanam','=',$year)
+                                        ->whereMonth('masa_tanam', '=', $month)
+                                        ->sum('total_realisasi');
+
+        $pengeluaran        = pengeluaran::whereYear('masa_tanam', '=', $year )
+                                         ->whereMonth('masa_tanam', '=', $month )
+                                         ->paginate(50);
+
+        $monthName = date("F", mktime(0, 0, 0, $month, 1));
+        $operation = $month+2;
+        $nextmonthName = date("F", mktime(0, 0, 0, $operation, 1));
+
         $pdf = new \fpdf\FPDF();
         $pdf->AddPage();
-        $pdf->SetTitle('Cetak Pengeluaran');
+        $pdf->SetTitle('Cetak Realisasi');
         //headernya
                 // Select Arial bold 15
             $pdf->SetFont('Arial','B',15);
@@ -241,45 +248,43 @@ class PengeluaranController extends Controller
             // Framed title
             $pdf->Cell(30,10,'Sistem Informasi Keuangan ASRI 12 Kauman',0,1,'C');
             $pdf->Cell(65);
-            $pdf->Cell(60,10,'Laporan Pengeluaran',1,0,'C');
+            $pdf->Cell(60,10,'REALISASI',1,0,'C');
             // Line break
             $pdf->Ln(20);
+                
         $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(38,8,'Pengeluaran Periode : ',0,0);
-        $pdf->Cell(20,8, $monthName,0,0);
-        $pdf->Cell(8,8, $year,0,1);
-        $pdf->Cell(38,8,'Dicetak tanggal          : ',0,0);
+        $pdf->Cell(35,8,'Masa Tanam          : ',0,0);
+        $pdf->Cell(21,8,$monthName.' -',0,0);
+        $pdf->Cell(18,8,$nextmonthName,0,0);
+        $pdf->Cell(10,8, $year,0,1);
+        $pdf->Cell(35,8,'Dicetak tanggal     : ',0,0);
         $pdf->Cell(8,8, date('d/m/Y'),0,1);
          $pdf->Ln(5);
         $pdf->Cell(8,8,'No',1,0);
-        $pdf->Cell(18,8,'Tanggal',1,0);
-        $pdf->Cell(78,8,'Item Pengeluaran',1,0);
-        $pdf->Cell(25,8,'Harga Satuan',1,0);
-        $pdf->Cell(15,8,'QTY',1,0);
-        $pdf->Cell(25,8,'Pengeluaran',1,0);
-        $pdf->Cell(20,8,'Jenis',1,1);
+        $pdf->Cell(50,8,'Nama Sayur',1,0);
+        $pdf->Cell(27,8,'Realisasi Bibit',1,0);
+        $pdf->Cell(27,8,'Real. Nutrisi',1,0);
+        $pdf->Cell(30,8,'Real.Bahan Lain',1,0);
+        $pdf->Cell(39,8,'Total Realisasi',1,1);
 
-        $pengeluaran  = pengeluaran::whereYear('created_at', '=', $year )
-                                    ->whereMonth('created_at', '=', $month )
-                                    ->paginate(50); 
-        $no = 1;                             
+        
+        $no = 1;                                
         $pdf->SetFont('Arial','',8);
         foreach ($pengeluaran as $a) {
         $pdf->Cell(8,8,$no,1,0);
-        $pdf->Cell(18,8,$a->created_at->format('d-m-Y'),1,0);
-        $pdf->Cell(78,8,$a->item_pengeluaran,1,0);
-        $pdf->Cell(25,8,number_format($a->harga_satuan_peng),1,0);
-        $pdf->Cell(15,8,$a->qty_peng,1,0);
-        $pdf->Cell(25,8,number_format($a->pengeluaran),1,0);
-        $pdf->Cell(20,8,$a->jenis_peng,1,1);
+        $pdf->Cell(50,8,$a->nama_sayur,1,0);
+        $pdf->Cell(27,8,number_format($a->real_bibit),1,0);
+        $pdf->Cell(27,8,number_format($a->real_nutrisi),1,0);
+        $pdf->Cell(30,8,number_format($a->real_bahan_lain),1,0);
+        $pdf->Cell(39,8,number_format($a->total_realisasi),1,1);
         $no++;
         }
         $pdf->SetFont('Arial','B',10);
         $pdf->Ln(4);
-        $pdf->Cell(40,8,'Total Pengeluaran: Rp',0,0);
-        $pdf->Cell(25,8, number_format($total),0,1);
+        $pdf->Cell(35,8,'Total Realisasi: Rp',0,0);
+        $pdf->Cell(25,8, number_format($totalreal),0,1);
         $pdf->Output();
         die;
-    }
+        }
 }
 

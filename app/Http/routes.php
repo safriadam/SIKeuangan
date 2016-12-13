@@ -13,57 +13,67 @@
 Route::group(['middleware' =>['auth','aktif']], function ()
 {
 
+			Route::group(['middleware' =>['nonanggota']], function ()
+				{
+					//anggaran---------------------------------------------->>
+					Route::get('anggaran',function() {
+					return view('anggaran.index');
+						});
+
+					Route::get('anggaran/create',function() {
+					return view('anggaran.create');
+						});
+
+					Route::post('anggaran/search','AnggaranController@search');
+					Route::post('anggaran/tahunBulan','AnggaranController@tahunBulan');
+					Route::post('anggaran/pdf','AnggaranController@pdf');
+					Route::get('anggaran/pdf','AnggaranController@pdf');
+
+
+
+					//pengeluaran----------------------------------------------------------------->>
+					Route::get('pengeluaran',function() {
+						return view('pengeluaran.index');
+					});
+
+					Route::get('pengeluaran/create',function() {
+						return view('pengeluaran.create');
+					});
+
+					Route::post('pengeluaran/tahunBulan','PengeluaranController@tahunBulan');
+					Route::post('pengeluaran/pdf','PengeluaranController@pdf');
+					Route::get('pengeluaran/pdf','PengeluaranController@pdf');
+					
+
+
+					//pemasukan------------------------------------------------------------------------>>
+					Route::get('pemasukan',function() {
+						return view('pemasukan.index');
+					});
+
+					Route::get('pemasukan/create',function() {
+						return view('pemasukan.create');
+					});
+
+					Route::post('pemasukan/tahunBulan','PemasukanController@tahunBulan');
+					Route::post('pemasukan/pdf','PemasukanController@pdf');
+					Route::get('pemasukan/pdf','PemasukanController@pdf');
+
+					
+					//all resource -------------------------------------------------------------------------------->>
+
+					Route::resource('anggaran','AnggaranController');
+					Route::resource('pengeluaran','PengeluaranController');
+					Route::resource('pemasukan','PemasukanController');
+
+			});
+
 	
 
-	//dashboard---------------------------------------------->>
+			//dashboard---------------------------------------------->>
 	Route::get('dashboard', function () {
-	    return view('dashboard'); 
+	return view('dashboard'); 
 	});
-
-
-	//anggaran---------------------------------------------->>
-	Route::get('anggaran',function() {
-		return view('anggaran.index');
-	});
-
-	Route::get('anggaran/create',function() {
-		return view('anggaran.create');
-	});
-
-	Route::post('anggaran/search','AnggaranController@search');
-	Route::post('anggaran/tahunBulan','AnggaranController@tahunBulan');
-	Route::post('anggaran/pdf','AnggaranController@pdf');
-	Route::get('anggaran/pdf','AnggaranController@pdf');
-
-
-
-	//pengeluaran----------------------------------------------------------------->>
-	Route::get('pengeluaran',function() {
-		return view('pengeluaran.index');
-	});
-
-	Route::get('pengeluaran/create',function() {
-		return view('pengeluaran.create');
-	});
-
-	Route::post('pengeluaran/tahunBulan','PengeluaranController@tahunBulan');
-	Route::post('pengeluaran/pdf','PengeluaranController@pdf');
-	Route::get('pengeluaran/pdf','PengeluaranController@pdf');
-	Route::get('pengeluaran/{pengeluaran}/detail','PengeluaranController@detail');
-
-
-	//pemasukan------------------------------------------------------------------------>>
-	Route::get('pemasukan',function() {
-		return view('pemasukan.index');
-	});
-
-	Route::get('pemasukan/create',function() {
-		return view('pemasukan.create');
-	});
-
-	Route::post('pemasukan/tahunBulan','PemasukanController@tahunBulan');
-	Route::post('pemasukan/pdf','PemasukanController@pdf');
-	Route::get('pemasukan/pdf','PemasukanController@pdf');
 
 	//laporan------------------------------------------------------------------------>>
 	route::get('laporan', function(){
@@ -74,9 +84,9 @@ Route::group(['middleware' =>['auth','aktif']], function ()
 		return view('laporan.labarugi');
 	});
 
+	Route::get('pengeluaran/{pengeluaran}/detail','PengeluaranController@detail');
 		
 	Route::get('laporan/harga','LaporanController@harga');
-	Route::post('laporan/harga/hasilHarga','LaporanController@hasilHarga');
 	Route::get('laporan/labarugi','LaporanController@labarugi');
 	Route::post('laporan/labarugi/labarugiBulanan','LaporanController@labarugiBulanan');
 	Route::get('laporan/bulanan','LaporanController@bulanan');
@@ -86,6 +96,7 @@ Route::group(['middleware' =>['auth','aktif']], function ()
 	Route::post('laporan/bulanan/bulananpdf','LaporanController@bulananpdf');
 	Route::get('laporan/bulanan/bulananpdf','LaporanController@bulananpdf');
 	Route::post('harga/tahunBulan','hargaController@tahunBulan');
+	Route::post('harga/hargapdf','hargaController@hargapdf');
 
 	// sayuran----------------------------------------------------------------------------------->>>
 
@@ -103,14 +114,11 @@ Route::group(['middleware' =>['auth','aktif']], function ()
 	Route::get('pengguna/{pengguna}/profil','PenggunaController@profil');
 	Route::patch('pengguna/{pengguna}/simpan','PenggunaController@simpan');
 
-	//all resource -------------------------------------------------------------------------------->>
-
-	Route::resource('anggaran','AnggaranController');
-	Route::resource('pengeluaran','PengeluaranController');
-	Route::resource('pemasukan','PemasukanController');
 	Route::resource('laporan','LaporanController');
 	Route::resource('sayuran','sayurController');
 	Route::resource('harga', 'hargaController');
+
+
 	
 	
 	// 

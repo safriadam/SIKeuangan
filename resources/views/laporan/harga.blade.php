@@ -10,8 +10,8 @@
 		<tr>
 			<td>pengeluaran produksi
 				
-				{!! Form::selectMonth('month', $m ,['class' => 'field'] ) !!}
-				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field']) !!}	
+				{!! Form::selectMonth('month', $m ,['class' => 'field input-sm'] ) !!}
+				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}	
 			</td>
 			<td>{!! Form::text('pengeluaran_prod',number_format($pengeluaran_prod),['class'=>'form-control','readonly']) !!}</td>
 		</tr>

@@ -80,7 +80,17 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                 @if (Auth::guest())
-                
+
+                @elseif(Auth::user()->jabatan == 'ANGGOTA')
+                    <li><a href="{{ url('sayuran') }}">Sayuran</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Laporan<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('laporan/bulanan') }}"><i class="fa fa-btn fa fa-usd"></i> Keuangan Bulanan</a></li>
+                                <li><a href="{{ url('laporan/labarugi') }}"><i class="fa fa-btn fa-bar-chart"></i></i>Laba-Rugi</a></li>
+                                <li><a href="{{ url('/harga') }}"><i class="fa fa-btn fa fa-money"></i></i>Harga Jual Produk</a></li>
+                        </ul>
+                    </li>
                 @else
                     <li><a href="{{ url('anggaran') }}">Anggaran</a></li>
                     <li><a href="{{ url('pengeluaran') }}">Realisasi</a></li>

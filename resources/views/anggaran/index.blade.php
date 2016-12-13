@@ -16,7 +16,7 @@
 		<div class="col-sm-4">
 			<h4>Anggaran Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->
 				{!! Form::open(array('url'=>'anggaran/tahunBulan')) !!}
-				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field']) !!}
+				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}
 				{{ Form::select('masaTanam', [
 								   '1' => 'Januari - Maret',
 								   '2' => 'Februari - April',
@@ -29,7 +29,7 @@
 								   '9' => 'September - November',
 								   '10' => 'Oktober - Desember',
 								   '11' => 'November - Januari',
-								   '12' => 'Desember - Februari'], $m, ['class' => 'field']
+								   '12' => 'Desember - Februari'], $m, ['class' => 'field input-sm']
 									) }}
 				{!! form::submit('Tampilkan',['class'=>'btn btn-info btn-sm']) !!}
 				{!! form::close() !!}
@@ -43,16 +43,25 @@
 </div>
 	
 <div class="container"> 	
-	<div class="col-sm-3">
-		<hr>
+	<hr>
+	<div class="col-sm-2">
 			<div class="btn-group">
-				{!! link_to('anggaran/create','Tambah Anggaran',['class'=>'btn btn-danger btn-md btn-space']) !!}
+				{!! link_to('anggaran/create',' Tambah Anggaran',['class'=>'btn btn-danger btn-md btn-space']) !!}
 			</div>
-		<hr>
 	</div>
-
+	<div class="col-sm-3">
+			<div class="btn-group">
+				{!! Form::open(array('url'=>'anggaran/pdf')) !!}
+				{!! Form::hidden('year', $y) !!}
+				{!! Form::hidden('month', $m) !!}
+				{!! form::submit('Cetak PDF',['class'=>'btn btn-success btn-md']) !!}
+				{!! form::close() !!}
+			</div>
+	</div>
 </div>
+
 <div class="container">
+	<hr>
 	<table class="table table-bordered">
 		
 		<tr>
