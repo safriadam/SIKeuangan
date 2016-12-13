@@ -127,6 +127,7 @@ class PenggunaController extends Controller
         $data['pengguna']    = user::find($id);
         $data['nama']        = null;
         $data['email']       = null;
+        $data['jabatan']     = null;
         return view('pengguna.profil',$data);
     }
    
