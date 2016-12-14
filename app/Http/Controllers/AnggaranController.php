@@ -12,6 +12,9 @@ use App\pengeluaran;
 use App\sayuran;
 use App\transaksi;
 use App\labarugi;
+use App\bibit;
+use App\nutrisi;
+use App\bahan_lain;
 use App\Http\Requests\createAnggaran;
 use Carbon\Carbon;
 use DateTime;
@@ -41,7 +44,13 @@ class AnggaranController extends Controller
         $data['y']          = date('Y');
         $data['m']          = date('m');
         $sayuran            = sayuran::lists('nama_sayur','id');
+        $bibit              = bibit::lists('nama_bibit','id');
+        $nutrisi            = Nutrisi::lists('nama_nutrisi','id');
+        $bahan_lain         = bahan_lain::lists('nama_bahan_lain','id');
         $data['sayuran']    = $sayuran;
+        $data['listbibit']  = $bibit;
+        $data['listnutrisi']= $nutrisi;
+        $data['listbahan']  = $bahan_lain;
     	return view('anggaran.create',$data);
     }
 
@@ -54,10 +63,16 @@ class AnggaranController extends Controller
         $sayur          = $request['nama_sayur'];
         $nama_sayur     = sayuran::where('id', $sayur)->value('nama_sayur');
         $bibit          = $request['bibit'];
+        $id_bibit       = $request['nama_bibit'];
+        $nama_bibit     = bibit::where('id', $id_bibit)->value('nama_bibit');
         $ket_bibit      = $request['ket_bibit'];
     	$nutrisi        = $request['nutrisi'];
+        $id_nutrisi     = $request['nama_nutrisi'];
+        $nama_nutrisi   = nutrisi::where('id', $id_nutrisi)->value('nama_nutrisi');
         $ket_nutrisi    = $request['ket_nutrisi']; 
         $bahan_lain     = $request['bahan_lain'];
+        $id_bahan_lain  = $request['nama_bahan_lain'];
+        $nama_bahan_lain= bahan_lain::where('id', $id_bahan_lain)->value('nama_bahan_lain');
         $ket_bahan_lain = $request['ket_bahan_lain'];
         $tot_anggaran   = $request['tot_anggaran'];
 
@@ -65,11 +80,11 @@ class AnggaranController extends Controller
                                 'sayur_id'      =>$sayur,
                                 'nama_sayur'    =>$nama_sayur,
                                 'bibit'         =>$bibit,
-                                'ket_bibit'     =>$ket_bibit,
+                                'ket_bibit'     =>$nama_bibit.' ('.$ket_bibit.')',
                                 'nutrisi'       =>$nutrisi,
-                                'ket_nutrisi'   =>$ket_nutrisi,
+                                'ket_nutrisi'   =>$nama_nutrisi.' ('.$ket_nutrisi.')',
                                 'bahan_lain'    =>$bahan_lain,
-                                'ket_bahan_lain'=>$ket_bahan_lain,
+                                'ket_bahan_lain'=>$nama_bahan_lain.'('.$ket_bahan_lain.')',
                                 'tot_anggaran'  =>$tot_anggaran));
         
 

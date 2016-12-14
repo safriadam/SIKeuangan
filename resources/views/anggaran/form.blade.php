@@ -23,19 +23,19 @@
 		<td>{{ Form::select('nama_sayur',$sayuran,null, ['class' => 'form-control']) }}</td>
 	</tr>
 
-	<tr><td>Bibit</td>
+	<tr><td>{{ Form::select('nama_bibit', $listbibit,null, ['class' => 'form-control','placeholder'=>'Pilih Bibit']) }}</td>
 		<td>{!! Form::text('bibit',null,array('id'=>'bibit','class' => 'form-control','placeholder'=>'0')) !!}</td>
 		<td>Keterangan</td>
 		<td>{!! Form::text('ket_bibit',null,['class'=>'form-control']) !!}</td>
 	</tr>
 
-	<tr><td>Nutrisi</td>
+	<tr><td>{{ Form::select('nama_nutrisi', $listnutrisi,null, ['class' => 'form-control','placeholder'=>'pilih Nutrisi']) }}</td>
 		<td>{!! Form::text('nutrisi',null,array('id'=>'nutrisi','class' => 'form-control','placeholder'=>'0')) !!}</td>
 		<td>Keterangan</td>
 		<td>{!! Form::text('ket_nutrisi',null,['class'=>'form-control']) !!}</td>
 	</tr>
 
-	<tr><td>Bahan Lain</td>
+	<tr><td>{{ Form::select('nama_bahan_lain', $listbahan,null, ['class' => 'form-control','placeholder'=>'Pilih Bahan Lain']) }}</td>
 		<td>{!! Form::text('bahan_lain',null,array('id'=>'bahan_lain','class' => 'form-control','placeholder'=>'0')) !!}</td>
 		<td>Keterangan</td>
 		<td>{!! Form::text('ket_bahan_lain',null,['class'=>'form-control']) !!}</td>

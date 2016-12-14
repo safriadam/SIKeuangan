@@ -108,6 +108,15 @@ Route::group(['middleware' =>['auth','aktif']], function ()
 		return view('sayuran.create');
 	});
 
+
+	Route::get('sayuran/createBibit','sayurController@createBibit');
+	Route::get('sayuran/createNutrisi','sayurController@createNutrisi');
+	Route::get('sayuran/createBahan','sayurController@createBahan');
+
+	
+	Route::post('sayuran/storeBibit','sayurController@storeBibit');
+	Route::post('sayuran/storeNutrisi','sayurController@storeNutrisi');
+	Route::post('sayuran/storeBahan','sayurController@storeBahan');
 	//pengguna-------------------------------------------------------------------------------------->>
 
 	
