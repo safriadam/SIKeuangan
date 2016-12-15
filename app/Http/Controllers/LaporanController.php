@@ -47,6 +47,12 @@ class LaporanController extends Controller
         $bulanan                = transaksi::whereYear('tgl_transaksi', '=', date('Y'))
                                             ->whereMonth('tgl_transaksi', '=', date('m'))
                                             ->paginate(40);
+        $saldomt                  = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', date('m'))
+                                            ->whereYear('tgl_transaksi', '=', date('Y'))
+                                            ->first();
+       
+        $data['saldomt']        = $saldomt;                                    
         $data['saldo']          = transaksi::latest()->first();
         $data['transaksi']      = $bulanan;
         return view('laporan.bulanan',$data);
@@ -99,12 +105,15 @@ class LaporanController extends Controller
         $totpeng            = transaksi::whereYear('tgl_transaksi', '=', $year )
                               ->whereMonth('tgl_transaksi', '=', $month )
                               ->sum('pengeluaran');
-
+        $saldomt            = transaksi::latest()
+                              ->whereMonth('tgl_transaksi', '=', $month)
+                              ->whereYear('tgl_transaksi', '=', $year )
+                              ->first();                      
         $no = 1;                             
         $pdf->SetFont('Arial','',8);
         foreach ($transaksi as $a) {
         $pdf->Cell(8,8,$no,1,0);
-        $pdf->Cell(18,8,$a->tgl_transaksi,1,0);
+        $pdf->Cell(18,8,$a->tgl_transaksi->format('d-m-Y'),1,0);
         $pdf->Cell(90,8,$a->deskripsi,1,0);
         $pdf->Cell(25,8,number_format($a->pemasukan),1,0);
         $pdf->Cell(25,8,number_format($a->pengeluaran),1,0);
@@ -116,17 +125,35 @@ class LaporanController extends Controller
         $pdf->Cell(25,8,number_format($totpema),1,0);
         $pdf->Cell(25,8,number_format($totpeng),1,1);
         
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(23,8,'Saldo Peride ',0,0);
+        $pdf->Cell(20,8, $monthName.':',0,0);
+        $pdf->Cell(8,8,' Rp '.number_format($saldomt->saldo),0,1);
         $pdf->Output();
         die;
     }
 
     public function tahunBulan(request $request)
     {
-        $month                  = $request['masaTanam'];
+        $month                  = $request['month'];
         $year                   = $request['year'];
         $bulanan                = transaksi::whereYear('tgl_transaksi', '=', $year)
                                             ->whereMonth('tgl_transaksi', '=', $month)
                                             ->paginate(40);
+        $saldomt                = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', $month)
+                                            ->whereYear('tgl_transaksi', '=', $year)
+                                            ->first();
+         if ($saldomt){
+
+            $data['saldomt']        = $saldomt;
+        }
+        else {
+
+            return redirect('laporan/bulanan/tahunBulan/kosong');
+            die;
+        }
+
         $data['transaksi']      = $bulanan;
         $data['y']              = $year;
         $data['m']              = $month;
@@ -258,8 +285,169 @@ class LaporanController extends Controller
 
         return view('laporan.harga',$data);
 
-    } 
+    }
 
 
+    public function tahunan(request $request)
+    {
+        $data['y']              = date('Y');
+        
+        $januari  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',1)
+                                         ->sum('pemasukan');
+        $februari = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',2)
+                                         ->sum('pemasukan');
+        $maret = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',3)
+                                         ->sum('pemasukan');
+        $april  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',4)
+                                         ->sum('pemasukan');
+        $mei = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',5)
+                                         ->sum('pemasukan');
+        $juni = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',6)
+                                         ->sum('pemasukan');                                 
+        $juli  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',7)
+                                         ->sum('pemasukan');
+        $agustus = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',8)
+                                         ->sum('pemasukan');
+        $september = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',9)
+                                         ->sum('pemasukan');                                
+        $oktober  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',10)
+                                         ->sum('pemasukan');
+        $november  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',11)
+                                         ->sum('pemasukan');
+        $desember = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',12)
+                                         ->sum('pemasukan');                                                           
+        $pemasukan = array($januari,$februari,$maret,$april,$mei,$juni,$juli,$agustus,$september,$oktober,$november,$desember);
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
+        $pengjanuari  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',1)
+                                         ->sum('pengeluaran');
+        $pengfebruari = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',2)
+                                         ->sum('pengeluaran');
+        $pengmaret = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',3)
+                                         ->sum('pengeluaran');
+        $pengapril  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',4)
+                                         ->sum('pengeluaran');
+        $pengmei = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',5)
+                                         ->sum('pengeluaran');
+        $pengjuni = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',6)
+                                         ->sum('pengeluaran');                                 
+        $pengjuli  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',7)
+                                         ->sum('pengeluaran');
+        $pengagustus = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',8)
+                                         ->sum('pengeluaran');
+        $pengseptember = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',9)
+                                         ->sum('pengeluaran');                                
+        $pengoktober  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',10)
+                                         ->sum('pengeluaran');
+        $pengnovember  = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',11)
+                                         ->sum('pengeluaran');
+        $pengdesember = transaksi::whereYear('tgl_transaksi', '=', date('Y'))->whereMonth('tgl_transaksi','=',12)
+                                         ->sum('pengeluaran');
+
+        $pengeluaran = array($pengjanuari,$pengfebruari,$pengmaret,$pengapril,$pengmei,$pengjuni,$pengjuli,$pengagustus,$pengseptember,$pengoktober,$pengnovember,$pengdesember);
+
+        $saldomt                = transaksi::latest()
+                                            ->whereYear('tgl_transaksi', '=', date('Y'))
+                                            ->first();
+        if ($saldomt){
+
+            $data['saldomt']        = $saldomt;
+        }
+        else {
+
+            return redirect('laporan/bulanan/tahunBulan/kosong');
+            die;
+        }
+                                                                                                                                                     
+        $monthName = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
+        $data['pengeluaran'] = $pengeluaran;
+        $data['pemasukan'] = $pemasukan;
+       
+        $data['monthName'] = $monthName;
+        return view('laporan/tahunan',$data);
+    }
+
+    public function tahun(request $request)
+    {
+
+        $y              = $request['year'];
+       
+        $januari  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',1)
+                                         ->sum('pemasukan');
+        $februari = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',2)
+                                         ->sum('pemasukan');
+        $maret = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',3)
+                                         ->sum('pemasukan');
+        $april  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',4)
+                                         ->sum('pemasukan');
+        $mei = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',5)
+                                         ->sum('pemasukan');
+        $juni = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',6)
+                                         ->sum('pemasukan');                                 
+        $juli  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',7)
+                                         ->sum('pemasukan');
+        $agustus = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',8)
+                                         ->sum('pemasukan');
+        $september = transaksi::whereYear('tgl_transaksi', '=',$y)->whereMonth('tgl_transaksi','=',9)
+                                         ->sum('pemasukan');                                
+        $oktober  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',10)
+                                         ->sum('pemasukan');
+        $november  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',11)
+                                         ->sum('pemasukan');
+        $desember = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',12)
+                                         ->sum('pemasukan');                                                           
+        $pemasukan = array($januari,$februari,$maret,$april,$mei,$juni,$juli,$agustus,$september,$oktober,$november,$desember);
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
+        $pengjanuari  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',1)
+                                         ->sum('pengeluaran');
+        $pengfebruari = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',2)
+                                         ->sum('pengeluaran');
+        $pengmaret = transaksi::whereYear('tgl_transaksi', '=',$y)->whereMonth('tgl_transaksi','=',3)
+                                         ->sum('pengeluaran');
+        $pengapril  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',4)
+                                         ->sum('pengeluaran');
+        $pengmei = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',5)
+                                         ->sum('pengeluaran');
+        $pengjuni = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',6)
+                                         ->sum('pengeluaran');                                 
+        $pengjuli  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',7)
+                                         ->sum('pengeluaran');
+        $pengagustus = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',8)
+                                         ->sum('pengeluaran');
+        $pengseptember = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',9)
+                                         ->sum('pengeluaran');                                
+        $pengoktober  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',10)
+                                         ->sum('pengeluaran');
+        $pengnovember  = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',11)
+                                         ->sum('pengeluaran');
+        $pengdesember = transaksi::whereYear('tgl_transaksi', '=', $y)->whereMonth('tgl_transaksi','=',12)
+                                         ->sum('pengeluaran');
+
+        $pengeluaran = array($pengjanuari,$pengfebruari,$pengmaret,$pengapril,$pengmei,$pengjuni,$pengjuli,$pengagustus,$pengseptember,$pengoktober,$pengnovember,$pengdesember);
+
+        $saldomt                = transaksi::latest()
+                                            ->whereYear('tgl_transaksi', '=', $y)
+                                            ->first();
+        if ($saldomt){
+
+            $data['saldomt']        = $saldomt;
+        }
+        else {
+
+            return redirect('laporan/bulanan/tahunBulan/kosong');
+            die;
+        }
+                                                                                                                                                     
+        $monthName = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
+        $data['pengeluaran'] = $pengeluaran;
+        $data['pemasukan'] = $pemasukan;
+        $data['monthName'] = $monthName;
+        $data['y']         = $y;
+
+        return view('laporan/tahunan',$data);
+    }
     
 }

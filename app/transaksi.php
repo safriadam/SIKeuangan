@@ -22,4 +22,10 @@ class transaksi extends Model
     	return $this->belongsTo('App\pengeluaran');
 
     }
+
+    protected $dates = [
+        'created_at', 
+        'updated_at', 
+        'tgl_transaksi',
+            ];
 }

@@ -9,30 +9,22 @@
                 <h3 class="page-header"><i class="fa fa-money" aria-hidden="true"></i>Laporan Keuangan Bulanan</h3>
               </div>
         </div>
-		<div class="col-sm-4">
+		<div class="col-sm-2">
 			<h4>Saldo saat ini:</h4> 
 			<tr><td>{!! Form::text('saldo', number_format($saldo->saldo) ,['class'=>'form-control']) !!}</td></tr>
 		</div>
 		<div class="col-sm-4">
-			<h4>Periode: </h4> <!-- untuk pilih periode masa tanam  -->
+			<h4>periode: </h4> <!-- untuk pilih periode masa tanam  -->
 				{!! Form::open(array('url'=>'laporan/bulanan/tahunBulan')) !!}
 				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}
-				{{ Form::select('masaTanam', [
-								   '1' => 'Januari - Maret',
-								   '2' => 'Februari - April',
-								   '3' => 'Maret - Mei',
-								   '4' => 'April - Juni',
-								   '5' => 'Mei - Juli',
-								   '6' => 'Juni - Agustus',
-								   '7' => 'Juli - September',
-								   '8' => 'Agustus - Oktober',
-								   '9' => 'September - November',
-								   '10' => 'Oktober - Desember',
-								   '11' => 'November - Januari',
-								   '12' => 'Desember - Februari'], $m, ['class' => 'field input-sm']
-									) }}
+				{!! Form::selectMonth('month', $m ,['class' => 'field input-sm'] ) !!}
 				{!! form::submit('Tampilkan',['class'=>'btn btn-info btn-sm']) !!}
 				{!! form::close() !!}
+		</div>
+		<div class="col-sm-3">
+			<h4>Saldo Periode : {{ $saldomt->tgl_transaksi->format('F') }}</h4> 
+			{!! Form::text('saldomt', number_format($saldomt->saldo) ,['class'=>'form-control']) !!}
+				
 		</div>
 		<div class="col-sm-2">
 		<h4>Cetak Laporan</h4>
@@ -64,7 +56,7 @@
 		@foreach ( $transaksi as $n)
 		<tr>
 		<td width="50px" align="center">{{ $no++ }}</td>
-		<td width="100px">{{ $n->tgl_transaksi }}</td> 
+		<td width="100px">{{ $n->tgl_transaksi->format('d-F-Y')}}</td> 
 		<td width="250px">{{ $n->deskripsi }}</td>
 		<td width="140px">{{ number_format($n->pemasukan) }}</td>
 		<td width="140px">{{ number_format($n->pengeluaran) }}</td>

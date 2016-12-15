@@ -84,12 +84,18 @@ Route::group(['middleware' =>['auth','aktif']], function ()
 		return view('laporan.labarugi');
 	});
 
+	route::get('laporan/bulanan/tahunBulan/kosong',function(){
+		return view('laporan.kosong');
+	});
+
 	Route::get('pengeluaran/{pengeluaran}/detail','PengeluaranController@detail');
 		
 	Route::get('laporan/harga','LaporanController@harga');
 	Route::get('laporan/labarugi','LaporanController@labarugi');
 	Route::post('laporan/labarugi/labarugiBulanan','LaporanController@labarugiBulanan');
 	Route::get('laporan/bulanan','LaporanController@bulanan');
+	Route::get('laporan/tahunan','LaporanController@tahunan');
+	Route::post('laporan/tahunan/tahun','LaporanController@tahun');
 	Route::post('laporan/bulanan/tahunBulan','LaporanController@tahunBulan');
 	Route::post('laporan/labarugi/labarugipdf','LaporanController@labarugipdf');
 	Route::get('laporan/labarugi/labarugipdf','LaporanController@labarugipdf');

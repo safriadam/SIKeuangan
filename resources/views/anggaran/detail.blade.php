@@ -19,13 +19,13 @@
 				
 		</td>
 	</tr>
-	<tr><td>Nama Sayur </td>
-		<td>{{ Form::text('nama_sayur',null, ['class' => 'form-control','readonly']) }}</td>
+	<tr><td width="150px">Nama Sayur </td>
+		<td width="250px">{{ Form::text('nama_sayur',null, ['class' => 'form-control','readonly']) }}</td>
 	</tr>
 
 	<tr><td>Bibit</td>
 		<td>{!! Form::text('bibit',null,array('id'=>'bibit','class' => 'form-control','placeholder'=>'0','readonly')) !!}</td>
-		<td>Keterangan</td>
+		<td width="100px">Keterangan</td>
 		<td>{!! Form::text('ket_bibit',null,['class'=>'form-control']) !!}</td>
 	</tr>
 
