@@ -22,7 +22,7 @@
 				{!! form::close() !!}
 		</div>
 		<div class="col-sm-3">
-			<h4>Saldo Periode : {{ $saldomt->tgl_transaksi->format('F') }}</h4> 
+			<h4>Saldo Periode : {{ $saldomt->masa_tanam->format('F') }}</h4> 
 			{!! Form::text('saldomt', number_format($saldomt->saldo) ,['class'=>'form-control']) !!}
 				
 		</div>

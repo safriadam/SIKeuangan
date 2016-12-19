@@ -22,10 +22,7 @@ class anggaran extends Model
 						    'tot_anggaran'
 						    ];
 
-	public function getCreatedAtAttribute() //buat nampilin tanggal dengan format YYYY-mm-dd, kalo gak pake ini format nya bisa lengkap dan panjang
-		{
-		    return Carbon::parse($this->attributes['masa_tanam']); 
-		}
+	// 
 
 	protected $dates = [
         'created_at', 

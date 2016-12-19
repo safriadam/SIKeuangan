@@ -150,6 +150,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Cartalyst\Alerts\Laravel\AlertsServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        MercurySeries\Flashy\FlashyServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -208,7 +209,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Alert' => Cartalyst\Alerts\Laravel\Facades\Alert::class,
         'Flash' => Laracasts\Flash\Flash::class,
-
+        'Flashy' => MercurySeries\Flashy\Flashy::class,
     ],
 
 ];

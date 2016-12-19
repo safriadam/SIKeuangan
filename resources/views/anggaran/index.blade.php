@@ -36,8 +36,11 @@
 		</div>
 
 		<div class="col-sm-4">
-			<H4>Total Anggaran:</H4>
+			<H4>Total Anggaran: {{ $saldomt->masa_tanam->format('F') }} - {{ $saldomt->masa_tanam->modify('+2 month')->format('F') }}</H4>
 			{!! Form::text('total_ang', number_format($total_ang) ,['class'=>'form-control']) !!}
+			@if ($total_ang > $saldo->saldo) 
+			@include('flash::message')
+			@endif
 		</div>
 	
 </div>

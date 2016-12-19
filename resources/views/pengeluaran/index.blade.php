@@ -5,6 +5,7 @@
 
 <div class="container">
 @include('flash::message')
+
 		<div class="row">
               <div class="col-lg-12">
                 <h3 class="page-header"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Realisasi</h3>

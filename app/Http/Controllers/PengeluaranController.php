@@ -32,15 +32,6 @@ class PengeluaranController extends Controller
         $data['y']           = date('Y');
         $data['m']           = date('m');
         $data['saldo']       = transaksi::latest()->first();
-    //     $pema               = labarugi::whereYear('created_at', '=', date('Y'))
-    //                                         ->whereMonth('created_at', '=', date('m')-1)
-    //                                         ->sum('pemasukan');
-    //     $penge              = labarugi::whereYear('created_at', '=', date('Y'))
-    //                                         ->whereMonth('created_at', '=', date('m')-1)
-    //                                         ->sum('pengeluaran');                                   
-    //     $data['labarugi']   = $pema - $penge;
-    
-
             
         return view('pengeluaran.index',$data); 
 
@@ -181,28 +172,6 @@ class PengeluaranController extends Controller
         return redirect('pengeluaran');
     }
 
-    // public function edit($id)
-    // {
-    //     $data['pengeluaran'] = pengeluaran::find($id);
-    //     return view('pengeluaran.edit',$data);
-    // }
-
-    // public function update($id, createPengeluaran $request)
-    // {
-    //     $data = $request->all();
-    //     $pengeluaran = pengeluaran::find($id);
-    //     $pengeluaran->update($data);
-    //     return redirect('pengeluaran');
-    // }
-
-    // public function destroy ($id)
-    // {
-    // 	$pengeluaran = pengeluaran::find($id);
-    //     $pengeluaran->delete();
-    //     return redirect('pengeluaran');
-    // }
-
-    // fitur edit dan delete dimatikan demi alasan integritas data
 
     public function tahunBulan(request $request)
     {

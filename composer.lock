@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5888d737b1cfe1492e1e34604f28cf4a",
-    "content-hash": "de41a34ef2a290b1ecd8c133ce29c66d",
+    "hash": "1a28a868e514db92e0bbf8c209912021",
+    "content-hash": "9919917b2a5c704db176674ed1900114",
     "packages": [
         {
             "name": "cartalyst/alerts",
@@ -787,6 +787,49 @@
                 "laravel"
             ],
             "time": "2016-12-09 19:11:09"
+        },
+        {
+            "name": "mercuryseries/flashy",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mercuryseries/flashy.git",
+                "reference": "d27b6be07ab20a78cd57ce315c332232b2f08ddb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mercuryseries/flashy/zipball/d27b6be07ab20a78cd57ce315c332232b2f08ddb",
+                "reference": "d27b6be07ab20a78cd57ce315c332232b2f08ddb",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MercurySeries\\Flashy": "src/"
+                },
+                "files": [
+                    "src/MercurySeries/Flashy/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Honore Hounwanou",
+                    "email": "mercuryseries@gmail.com"
+                }
+            ],
+            "description": "Easy flash notifications",
+            "time": "2016-01-11 23:44:20"
         },
         {
             "name": "monolog/monolog",

@@ -17,6 +17,7 @@ use App\nutrisi;
 use App\bahan_lain;
 use App\Http\Requests\createAnggaran;
 use Carbon\Carbon;
+use Cartalyst\Alerts\Native\Facades\Alert;
 use DateTime;
 
 class AnggaranController extends Controller
@@ -32,9 +33,19 @@ class AnggaranController extends Controller
            $data['total_ang']  = anggaran::whereYear('masa_tanam','=', date('Y'))
                                             ->whereMonth('masa_tanam', '=', date('m'))
                                             ->sum('tot_anggaran');
+           $saldomt            = anggaran::latest()
+                                            ->whereMonth('masa_tanam', '=', date('m'))
+                                            ->whereYear('masa_tanam', '=', date('Y'))
+                                            ->first();
+           $data['saldomt']    = $saldomt;  
            $data['y']          = date('Y');
            $data['m']          = date('m');
            $data['saldo']      = transaksi::latest()->first();
+
+           if ($data['total_ang'] > $data['saldo']->saldo) {
+               flash('peringatan ! Anggaran melebihi saldo saat ini','danger');
+                //\Flash::error('peringatan ! Anggaran melebihi saldo saat ini');
+           }
             
         return view('anggaran.index',$data);  
 
@@ -139,12 +150,24 @@ class AnggaranController extends Controller
         $data['total_ang']   = anggaran::whereYear('masa_tanam','=', $year)
                                         ->whereMonth('masa_tanam', '=', $month)
                                         ->sum('tot_anggaran');
+        $saldomt            = anggaran::latest()
+                                            ->whereMonth('masa_tanam', '=', $month)
+                                            ->whereYear('masa_tanam', '=', $year)
+                                            ->first();
+        $data['saldomt']    = $saldomt;                                
         $data['anggaran']   = $anggaran;
         $data['y']          = $year;
         $data['m']          = $month;
         $data['saldo']      = transaksi::latest()->first();
-        
+
+        if ($data['total_ang'] > $data['saldo']->saldo) {
+               
+               flash('peringatan ! Anggaran melebihi saldo saat ini','danger');
+                //\Flash::error('peringatan ! Anggaran melebihi saldo saat ini');
+           }
+
         return view('anggaran.index',$data);
+      
     }
 
     public function pdf(request $request)
