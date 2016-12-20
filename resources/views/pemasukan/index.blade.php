@@ -34,7 +34,7 @@
 			{!! form::close() !!}
 	</div>
 	<div class= "col-sm-3" >
-	<h4>Total Pemasukan :</h4>
+	<h4>Total Pemasukan : {{ $saldomt->masa_tanam->format('F') }}</h4>
 		{!! form::text('total',number_format($total),['class'=>'form-control','placeholder'=>'','readonly'])!!}
 		<br>
 	</div>

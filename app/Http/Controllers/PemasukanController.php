@@ -20,6 +20,11 @@ class PemasukanController extends Controller
                                             ->whereMonth('created_at', '=', date('m'))
                                             ->sum('pemasukan');                                     
         $data['pemasukan']    	= $pemasukan;
+        $saldomt                = pemasukan::latest()
+                                            ->whereMonth('masa_tanam', '=', date('m'))
+                                            ->whereYear('masa_tanam', '=', date('Y'))
+                                            ->first();
+        $data['saldomt']        = $saldomt;                                    
         $data['saldo']          = transaksi::latest()->first();
         $data['y']              = date('Y');
         $data['m']              = date('m');
@@ -94,6 +99,19 @@ class PemasukanController extends Controller
         $data['total']          = pemasukan::whereYear('masa_tanam','=',$year)
                                             ->whereMonth('masa_tanam', '=', $month)
                                             ->sum('pemasukan');
+        $saldomt                = pemasukan::latest()
+                                            ->whereMonth('masa_tanam', '=', $month)
+                                            ->whereYear('masa_tanam', '=', $year)
+                                            ->first();
+        if ($saldomt){
+
+            $data['saldomt']        = $saldomt;
+        }
+        else {
+
+            return redirect('laporan/bulanan/tahunBulan/kosong');
+            die;
+        }
         $data['pemasukan']      = $pemasukan;
         $data['y']              = $year;
         $data['m']              = $month;

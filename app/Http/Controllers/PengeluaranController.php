@@ -153,7 +153,7 @@ class PengeluaranController extends Controller
             }
             else
             {
-                // jika aset, maka lanjut
+                
             }
 
             $saldo = transaksi::latest()->first();

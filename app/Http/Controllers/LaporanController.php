@@ -33,7 +33,13 @@ class LaporanController extends Controller
         $penge                  = labarugi::whereYear('periode', '=', date('Y'))
                                             ->whereMonth('periode', '=', date('m'))
                                             ->sum('pengeluaran');
-        $data['saldo']          = transaksi::latest()->first();                                   
+        $data['saldo']          = transaksi::latest()->first(); 
+        $saldomt                = labarugi::latest()
+                                            ->whereMonth('periode', '=', date('m'))
+                                            ->whereYear('periode', '=', date('Y'))
+                                            ->first();
+       
+        $data['saldomt']        = $saldomt;                                  
         $data['labarugi']       = $pema - $penge;
         $data['laba_rugi']      = $labarugi;
     
@@ -47,7 +53,7 @@ class LaporanController extends Controller
         $bulanan                = transaksi::whereYear('tgl_transaksi', '=', date('Y'))
                                             ->whereMonth('tgl_transaksi', '=', date('m'))
                                             ->paginate(40);
-        $saldomt                  = transaksi::latest()
+        $saldomt                = transaksi::latest()
                                             ->whereMonth('tgl_transaksi', '=', date('m'))
                                             ->whereYear('tgl_transaksi', '=', date('Y'))
                                             ->first();
@@ -177,6 +183,19 @@ class LaporanController extends Controller
         $data['labarugi']       = $pema - $penge; //untuk mengisi form laba rugi dan rumus laba rugi
         $data['y']              = $year;
         $data['saldo']          = transaksi::latest()->first();
+        $saldomt                = labarugi::latest()
+                                            ->whereMonth('periode', '=', $month)
+                                            ->whereYear('periode', '=', $year)
+                                            ->first();
+         if ($saldomt){
+
+            $data['saldomt']        = $saldomt;
+        }
+        else {
+
+            return redirect('laporan/bulanan/tahunBulan/kosong');
+            die;
+        }
         $data['m']              = $month;
         $data['laba_rugi']      = $bulanan;
         return view('laporan.labarugi',$data);

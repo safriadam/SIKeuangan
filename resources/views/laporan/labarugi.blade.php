@@ -35,7 +35,7 @@
 				{!! form::close() !!}
 		</div>
 		<div class="col-sm-3">
-			<h4>Laba - Rugi :</h4> 
+			<h4>Laba - Rugi :{{ $saldomt->periode->format('F') }}</h4> 
 			<tr><td>{!! Form::text('labarugi', number_format($labarugi) ,['class'=>'form-control']) !!}</td></tr>
 		</div>
 		<div class="col-sm-2">
