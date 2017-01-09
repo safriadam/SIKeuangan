@@ -14,23 +14,10 @@
 			<tr><td>{!! Form::text('saldo', number_format($saldo->saldo) ,['class'=>'form-control']) !!}</td></tr>
 		</div>
 		<div class="col-sm-4">
-			<h4>Masa Tanam: </h4> <!-- untuk pilih periode masa tanam  -->
+			<h4>Periode: </h4> <!-- untuk pilih periode masa tanam  -->
 				{!! Form::open(array('url'=>'laporan/labarugi/labarugiBulanan')) !!}
 				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}
-				{{ Form::select('masaTanam', [
-								   '1' => 'Januari - Maret',
-								   '2' => 'Februari - April',
-								   '3' => 'Maret - Mei',
-								   '4' => 'April - Juni',
-								   '5' => 'Mei - Juli',
-								   '6' => 'Juni - Agustus',
-								   '7' => 'Juli - September',
-								   '8' => 'Agustus - Oktober',
-								   '9' => 'September - November',
-								   '10' => 'Oktober - Desember',
-								   '11' => 'November - Januari',
-								   '12' => 'Desember - Februari'], $m, ['class' => 'field input-sm']
-									) }}
+				{!! Form::selectMonth('masaTanam', $m ,['class' => 'field input-sm'] ) !!}
 				{!! form::submit('Tampilkan',['class'=>'btn btn-info btn-sm']) !!}
 				{!! form::close() !!}
 		</div>
