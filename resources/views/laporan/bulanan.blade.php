@@ -16,8 +16,8 @@
 		<div class="col-sm-4">
 			<h4>periode: </h4> <!-- untuk pilih periode masa tanam  -->
 				{!! Form::open(array('url'=>'laporan/bulanan/tahunBulan')) !!}
-				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}
 				{!! Form::selectMonth('month', $m ,['class' => 'field input-sm'] ) !!}
+				{!! Form::selectRange('year',2015, date('Y'), $y ,['class' => 'field input-sm']) !!}
 				{!! form::submit('Tampilkan',['class'=>'btn btn-info btn-sm']) !!}
 				{!! form::close() !!}
 		</div>
@@ -43,6 +43,7 @@
 
 <div class="container">
 	<hr>
+	<h4>Saldo Awal : Rp {{number_format($saldolalu->saldo) }}</h4>
 	<table class="table table-bordered">
 		<tr>
 			<th>No</th>
@@ -50,6 +51,7 @@
 			<th>Deskripsi</th>
 			<th>Pemasukan</th>
 			<th>Pengeluaran</th>
+			<th>Saldo</th>
 			<th>Aksi</th>
 		</tr>
 		<?php $no = 1; ?>
@@ -60,7 +62,7 @@
 		<td width="250px">{{ $n->deskripsi }}</td>
 		<td width="140px">{{ number_format($n->pemasukan) }}</td>
 		<td width="140px">{{ number_format($n->pengeluaran) }}</td>
-
+		<td width="140px">{{ number_format($n->saldo) }}</td>
 		@if ($n->pengeluaran)
 
 				<td width="50px">{!! link_to('pengeluaran/'.$n->pengeluaran_id.'/detail','Detail',['class'=>'btn btn-success btn-sm']) !!}</td>

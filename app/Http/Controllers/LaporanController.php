@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use fpdf;
 use App\pengeluaran;
 use App\pemasukan;
@@ -57,8 +58,22 @@ class LaporanController extends Controller
                                             ->whereMonth('tgl_transaksi', '=', date('m'))
                                             ->whereYear('tgl_transaksi', '=', date('Y'))
                                             ->first();
-       
-        $data['saldomt']        = $saldomt;                                    
+        if (date('m') == 01){
+
+            $lalu = 12;
+            $saldolalu              = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', $lalu)
+                                            ->first();
+        }
+        else{
+
+            $saldolalu              = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', date('m')-1)
+                                            ->first();
+        }                                    
+                                
+        $data['saldomt']        = $saldomt;
+        $data['saldolalu']      = $saldolalu;                                    
         $data['saldo']          = transaksi::latest()->first();
         $data['transaksi']      = $bulanan;
         return view('laporan.bulanan',$data);
@@ -69,6 +84,20 @@ class LaporanController extends Controller
         $month              = $request['month'];
         $year               = $request['year'];
         $saldo              = transaksi::latest()->first();
+
+        if ($month == 01){
+
+            $lalu = 12;
+            $saldolalu              = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', $lalu)
+                                            ->first();
+        }
+        else{
+
+            $saldolalu              = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', $month-1)
+                                            ->first();
+        }
 
         $monthName = date("F", mktime(0, 0, 0, $month, 10));
         $pdf = new \fpdf\FPDF();
@@ -92,8 +121,8 @@ class LaporanController extends Controller
         $pdf->Cell(8,8, $year,0,1);
         $pdf->Cell(35,8,'Dicetak tanggal     : ',0,0);
         $pdf->Cell(8,8, date('d/m/Y'),0,1);
-        $pdf->Cell(35,8,'Saldo Saat ini : Rp',0,0);
-        $pdf->Cell(40,8, number_format($saldo->saldo),0,1);
+        $pdf->Cell(44,8,'Saldo awal '.$monthName.': Rp',0,0);
+        $pdf->Cell(40,8, number_format($saldolalu->saldo),0,1);
             $pdf->Ln(5);
         $pdf->Cell(8,8,'No',1,0);
         $pdf->Cell(18,8,'Tanggal',1,0);
@@ -114,7 +143,9 @@ class LaporanController extends Controller
         $saldomt            = transaksi::latest()
                               ->whereMonth('tgl_transaksi', '=', $month)
                               ->whereYear('tgl_transaksi', '=', $year )
-                              ->first();                      
+                              ->first();
+        
+                                                    
         $no = 1;                             
         $pdf->SetFont('Arial','',8);
         foreach ($transaksi as $a) {
@@ -132,7 +163,7 @@ class LaporanController extends Controller
         $pdf->Cell(25,8,number_format($totpeng),1,1);
         
         $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(23,8,'Saldo Peride ',0,0);
+        $pdf->Cell(35,8,'Saldo Akhir Periode ',0,0);
         $pdf->Cell(20,8, $monthName.':',0,0);
         $pdf->Cell(8,8,' Rp '.number_format($saldomt->saldo),0,1);
         $pdf->Output();
@@ -150,7 +181,7 @@ class LaporanController extends Controller
                                             ->whereMonth('tgl_transaksi', '=', $month)
                                             ->whereYear('tgl_transaksi', '=', $year)
                                             ->first();
-         if ($saldomt){
+        if ($saldomt){
 
             $data['saldomt']        = $saldomt;
         }
@@ -160,6 +191,30 @@ class LaporanController extends Controller
             die;
         }
 
+        if ($month == 01){
+
+            $lalu = 12;
+            $saldolalu              = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', $lalu)
+                                            ->first();
+        }
+        else{
+
+            $saldolalu              = transaksi::latest()
+                                            ->whereMonth('tgl_transaksi', '=', $month-1)
+                                            ->first();
+        } 
+        
+        if ($saldolalu){
+
+            $data['saldolalu']      = $saldolalu; 
+        }
+        else {
+
+            return redirect('laporan/bulanan/tahunBulan/kosong');
+            die;
+        }
+        
         $data['transaksi']      = $bulanan;
         $data['y']              = $year;
         $data['m']              = $month;
